@@ -23,6 +23,7 @@ timer_button_y = 450
 timer_button_height = 100
 timer_button_width = 250
 timer_button_colour = 255, 255, 255
+timer_button_colour_selected = 150, 150, 150
 
 timer_display_font = 'C:/Windows/Fonts/Arial.ttf'
 timer_display_size = 150
@@ -42,7 +43,12 @@ def timer_function():
     WIN.blit(timer_display, textRect)
 
 def start_timer():
-    pygame.draw.rect(WIN, (timer_button_colour), (timer_button_x, timer_button_y, timer_button_width, timer_button_height))
+    mouse = pygame.mouse.get_pos()
+    if mouse[0] > timer_button_x and mouse[0] < timer_button_x + timer_button_width and mouse[1] > timer_button_y and mouse[1] < timer_button_y + timer_button_height and pygame.mouse.get_pressed()[0]:
+        pygame.draw.rect(WIN, (timer_button_colour_selected), (timer_button_x, timer_button_y, timer_button_width, timer_button_height))
+        print("Clicked!")
+    else:
+        pygame.draw.rect(WIN, (timer_button_colour), (timer_button_x, timer_button_y, timer_button_width, timer_button_height))
 
 clock = pygame.time.Clock()
 
@@ -55,7 +61,7 @@ def game_window_style():
 RUNNING_WINDOW = True
 
 while RUNNING_WINDOW:
-    clock.tick(1000)
+    clock.tick(60)
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
