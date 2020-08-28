@@ -34,7 +34,7 @@ timer_display_y = 200
 
 def timer_function():
     timer_font = pygame.font.Font(timer_display_font, timer_display_size)
-    total_time = str(round(time.time() - startTime, 2))
+    total_time = str(round(time.time() - startTime, 3))
     timer_display = timer_font.render(total_time, True, timer_display_fg, timer_display_bg)
     textRect = timer_display.get_rect()
     textRect.left = timer_display_x
