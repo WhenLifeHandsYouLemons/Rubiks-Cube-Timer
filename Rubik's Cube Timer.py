@@ -31,14 +31,14 @@ timer_display_y = 200
 
 
 def timer_function():
-#    time.sleep(0.5)
     while button_click_check[0] == 1:
-#        if keys[pygame.K_SPACE]:
-#            button_click_check.remove(1)
-#            button_click_check.append(0)
-#        if mouse[0] > timer_button_x and mouse[0] < timer_button_x + timer_button_width and mouse[1] > timer_button_y and mouse[1] < timer_button_y + timer_button_height and pygame.mouse.get_pressed()[0]:
-#            button_click_check.remove(1)
-#            button_click_check.append(0)
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                button_click_check.append(0)
+                button_click_check.remove(1)
+                RUNNING_WINDOW = False
+
         timer_font = pygame.font.Font(timer_display_font, timer_display_size)
         total_time = str(round(time.time() - startTime, 3))
         timer_display = timer_font.render(total_time, True, timer_display_fg, timer_display_bg)
@@ -48,11 +48,20 @@ def timer_function():
         WIN.blit(timer_display, textRect)
         pygame.display.update()
         game_window_style()
+        keys = pygame.key.get_pressed()
+        mouse = pygame.mouse.get_pos()
+        if keys[pygame.K_SPACE]:
+            button_click_check.append(0)
+            button_click_check.remove(1)
+        if mouse[0] > timer_button_x and mouse[0] < timer_button_x + timer_button_width and mouse[1] > timer_button_y and mouse[1] < timer_button_y + timer_button_height and pygame.mouse.get_pressed()[0]:
+            button_click_check.append(0)
+            button_click_check.remove(1)
+
 
 def start_timer():
     if button_click_check[0] == 1:
         timer_function()
-    elif keys[pygame.K_SPACE] and button_click_check[0] == 0:
+    elif keys[pygame.K_RALT] or keys[pygame.K_LALT] and button_click_check[0] == 0:
         button_click_check.append(1)
         button_click_check.remove(0)
         startTime = time.time()
@@ -85,7 +94,7 @@ def game_window_style():
 RUNNING_WINDOW = True
 
 while RUNNING_WINDOW:
-    clock.tick(60)
+    clock.tick(1000)
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
