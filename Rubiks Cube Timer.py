@@ -209,7 +209,7 @@ def game_window_style():
     pygame.draw.rect(WIN, (title_box_bg), (0, 0, window_width, timer_button_height))
 
     help_font = pygame.font.Font(timer_display_font, help_size)
-    help_display = help_font.render("Press 'alt' to start, press space to stop", True, timer_display_fg, timer_display_bg)
+    help_display = help_font.render("Press 'alt' to start, press 'space' to stop", True, timer_display_fg, timer_display_bg)
     textRect9 = help_display.get_rect()
     textRect9.bottomright = (window_width, window_height)
     WIN.blit(help_display, textRect9)
