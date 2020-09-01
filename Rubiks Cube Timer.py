@@ -5,8 +5,10 @@ import time
 import pygame
 pygame.init()
 
+window_height = 680
+window_width = 1250
 #This sets the size of the window.
-WIN = pygame.display.set_mode((1250, 680))
+WIN = pygame.display.set_mode((window_width, window_height))
 pygame.display.set_caption("Rubik's Cube Timer")
 
 bgColor = 0, 0, 0
@@ -21,8 +23,14 @@ timer_button_height = 100
 timer_button_width = 250
 timer_button_colour = 255, 255, 255
 timer_button_colour_selected = 150, 150, 150
+start_display_size = 60
+start_display_x = timer_button_x + (timer_button_width // 2)
+start_display_y = timer_button_y + (timer_button_height // 2)
+start_fg = 0, 0, 0
 
 button_click_check = [0]
+
+help_size = 24
 
 timer_display_font = "C:/Windows/Fonts/Arial.ttf"
 timer_display_size = 150
@@ -31,13 +39,43 @@ timer_display_bg = None
 timer_display_x = timer_button_x - timer_button_x / 10
 timer_display_y = 200
 
+title_box_bg = 30, 30, 30
+title_bg = None
+title_cube_timer_fg = 170, 170, 170
+title_b_fg = 60, 60, 255
+title_s_fg = 220, 0, 0
+title_u_fg = 255, 255, 255
+title_i_fg = 255, 140, 0
+title_R_fg = 0, 200, 0
+title_k_fg = 255, 255, 0
+title_display_R_x = (window_width // 18) * 1
+title_display_R_y = timer_button_height // 2
+title_display_u_x = (window_width // 18) * 2
+title_display_u_y = timer_button_height // 2
+title_display_b_x = (window_width // 18) * 3
+title_display_b_y = timer_button_height // 2
+title_display_i_x = (window_width // 18) * 4
+title_display_i_y = timer_button_height // 2
+title_display_k_x =(window_width // 18) * 5
+title_display_k_y = timer_button_height // 2
+title_display_apostrophe_x = (window_width // 18) * 6
+title_display_apostrophe_y = timer_button_height // 2
+title_display_s_x = (window_width // 18) * 7
+title_display_s_y = timer_button_height // 2
+title_display_cube_timer_x = (window_width // 18) * (25 / 2)
+title_display_cube_timer_y = timer_button_height // 2
+title_size = 80
+title_display_font = "C:/Users/2005s/Documents/Fonts/joystix.ttf"
+stats_width = timer_button_x - (window_width - (timer_button_width + timer_button_x))
+stats_bg = 150, 150, 150
+
 
 def timer_function():
     while button_click_check[0] == 1:
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                RUNNING_WINDOW = False
+                pygame.quit()
 
         if time_start[0] == 0:
             start_time = time.time()
@@ -101,15 +139,15 @@ def start_timer():
 
         timer_function()
 
-#    elif mouse[0] > timer_button_x and mouse[0] < timer_button_x + timer_button_width and mouse[1] > timer_button_y and mouse[1] < timer_button_y + timer_button_height and pygame.mouse.get_pressed()[0] and button_click_check[0] == 0:
-#        pygame.draw.rect(WIN, (timer_button_colour_selected), (timer_button_x, timer_button_y, timer_button_width, timer_button_height))
+    elif mouse[0] > timer_button_x and mouse[0] < timer_button_x + timer_button_width and mouse[1] > timer_button_y and mouse[1] < timer_button_y + timer_button_height and pygame.mouse.get_pressed()[0] and button_click_check[0] == 0:
+        pygame.draw.rect(WIN, (timer_button_colour_selected), (timer_button_x, timer_button_y, timer_button_width, timer_button_height))
 
-#        button_click_check.append(1)
-#        button_click_check.remove(0)
+        button_click_check.append(1)
+        button_click_check.remove(0)
 
-#        start_time = time.time()
+        start_time = time.time()
 
-#        timer_function()
+        timer_function()
 
     else:
         timer_font = pygame.font.Font(timer_display_font, timer_display_size)
@@ -121,17 +159,68 @@ def start_timer():
 
         pygame.draw.rect(WIN, (timer_button_colour), (timer_button_x, timer_button_y, timer_button_width, timer_button_height))
 
+        start_font = pygame.font.Font(title_display_font, start_display_size)
+        start_display = start_font.render("Start", True, start_fg, timer_display_bg)
+        textRect10 = start_display.get_rect()
+        textRect10.center = (start_display_x, start_display_y)
+        WIN.blit(start_display, textRect10)
+
 clock = pygame.time.Clock()
+
+def title():
+    title_font = pygame.font.Font(title_display_font, title_size)
+    title_display_R = title_font.render("R", True, title_R_fg, title_bg)
+    title_display_u = title_font.render("u", True, title_u_fg, title_bg)
+    title_display_b = title_font.render("b", True, title_b_fg, title_bg)
+    title_display_i = title_font.render("i", True, title_i_fg, title_bg)
+    title_display_k = title_font.render("k", True, title_k_fg, title_bg)
+    title_display_apostrophe = title_font.render("'", True, title_cube_timer_fg, title_bg)
+    title_display_s = title_font.render("s", True, title_s_fg, title_bg)
+    title_display_cube_timer = title_font.render(" Cube Timer", True, title_cube_timer_fg, title_bg)
+    textRect1 = title_display_R.get_rect()
+    textRect2 = title_display_u.get_rect()
+    textRect3 = title_display_b.get_rect()
+    textRect4 = title_display_i.get_rect()
+    textRect5 = title_display_k.get_rect()
+    textRect6 = title_display_apostrophe.get_rect()
+    textRect7 = title_display_s.get_rect()
+    textRect8 = title_display_cube_timer.get_rect()
+    textRect1.center = (title_display_R_x, title_display_R_y)
+    textRect2.center = (title_display_u_x, title_display_u_y)
+    textRect3.center = (title_display_b_x, title_display_b_y)
+    textRect4.center = (title_display_i_x, title_display_i_y)
+    textRect5.center = (title_display_k_x, title_display_k_y)
+    textRect6.center = (title_display_apostrophe_x, title_display_apostrophe_y)
+    textRect7.center = (title_display_s_x, title_display_s_y)
+    textRect8.center = (title_display_cube_timer_x, title_display_cube_timer_y)
+    WIN.blit(title_display_R, textRect1)
+    WIN.blit(title_display_u, textRect2)
+    WIN.blit(title_display_b, textRect3)
+    WIN.blit(title_display_i, textRect4)
+    WIN.blit(title_display_k, textRect5)
+    WIN.blit(title_display_apostrophe, textRect6)
+    WIN.blit(title_display_s, textRect7)
+    WIN.blit(title_display_cube_timer, textRect8)
 
 def game_window_style():
     WIN.fill(bgColor)
-    pygame.draw.rect(WIN, (200, 200, 200), (0, 0, 1250, timer_button_height))
+
+    pygame.draw.rect(WIN, (stats_bg), (0, 0, stats_width, window_height))
+    pygame.draw.rect(WIN, (title_box_bg), (0, 0, window_width, timer_button_height))
+
+    help_font = pygame.font.Font(timer_display_font, help_size)
+    help_display = help_font.render("Press 'alt' to start, press space to stop", True, timer_display_fg, timer_display_bg)
+    textRect9 = help_display.get_rect()
+    textRect9.bottomright = (window_width, window_height)
+    WIN.blit(help_display, textRect9)
+
+    title()
 
 
 RUNNING_WINDOW = True
 
 while RUNNING_WINDOW:
-    clock.tick(1000)
+    clock.tick(30)
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
