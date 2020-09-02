@@ -16,6 +16,19 @@ bgColor = 0, 0, 0
 time_start = [0]
 start_time = 0
 time_taken = ["0.000"]
+all_times = []
+time_to_average = []
+
+with open("C:/Users/2005s/Documents/Visual Studio Code/Pygame/Rubiks-Cube-Timer/Session1.txt", "r") as f:
+    content = f.read()
+    lines = content.splitlines()
+    for line in lines:
+        print(line)
+        all_times.append(line)
+        print(all_times)
+
+line_no = 0
+current_ao5 = ""
 
 timer_button_x = 700
 timer_button_y = 450
@@ -28,7 +41,7 @@ start_display_x = timer_button_x + (timer_button_width // 2)
 start_display_y = timer_button_y + (timer_button_height // 2)
 start_fg = 0, 0, 0
 
-button_click_check = [0]
+start_timer_check = [0]
 
 help_size = 24
 
@@ -71,7 +84,7 @@ stats_bg = 150, 150, 150
 
 
 def timer_function():
-    while button_click_check[0] == 1:
+    while start_timer_check[0] == 1:
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -98,14 +111,15 @@ def timer_function():
         mouse = pygame.mouse.get_pos()
         
         if keys[pygame.K_SPACE]:
-            button_click_check.append(0)
-            button_click_check.remove(1)
+            start_timer_check.append(0)
+            start_timer_check.remove(1)
         
             time_start.append(0)
             time_start.remove(1)
             time_taken.clear()
         
             total_time = float(total_time)
+            time_to_average.append(total_time)
             if total_time > 60:
                 total_minutes = round(total_time // 60, None)
                 total_seconds = round(total_time - (60 * total_minutes), 3)
@@ -116,9 +130,14 @@ def timer_function():
             total_time = str(total_time)
             time_taken.append(total_time)
 
+            all_times.append(total_time)
+            add_to_file = "\n".join(all_times)
+            with open("C:/Users/2005s/Documents/Visual Studio Code/Pygame/Rubiks-Cube-Timer/Session1.txt", "w") as f:
+                    f.write(add_to_file)
+
 #        if mouse[0] > timer_button_x and mouse[0] < timer_button_x + timer_button_width and mouse[1] > timer_button_y and mouse[1] < timer_button_y + timer_button_height and pygame.mouse.get_pressed()[0]:
-#            button_click_check.append(0)
-#            button_click_check.remove(1)
+#            start_timer_check.append(0)
+#            start_timer_check.remove(1)
 
 #            time_start.append(0)
 #            time_start.remove(1)
@@ -128,22 +147,22 @@ def timer_function():
 
 
 def start_timer():
-    if button_click_check[0] == 1:
+    if start_timer_check[0] == 1:
         timer_function()
 
-    elif keys[pygame.K_RALT] or keys[pygame.K_LALT] and button_click_check[0] == 0:
-        button_click_check.append(1)
-        button_click_check.remove(0)
+    elif keys[pygame.K_RALT] or keys[pygame.K_LALT] and start_timer_check[0] == 0:
+        start_timer_check.append(1)
+        start_timer_check.remove(0)
 
         start_time = time.time()
 
         timer_function()
 
-    elif mouse[0] > timer_button_x and mouse[0] < timer_button_x + timer_button_width and mouse[1] > timer_button_y and mouse[1] < timer_button_y + timer_button_height and pygame.mouse.get_pressed()[0] and button_click_check[0] == 0:
+    elif mouse[0] > timer_button_x and mouse[0] < timer_button_x + timer_button_width and mouse[1] > timer_button_y and mouse[1] < timer_button_y + timer_button_height and pygame.mouse.get_pressed()[0] and start_timer_check[0] == 0:
         pygame.draw.rect(WIN, (timer_button_colour_selected), (timer_button_x, timer_button_y, timer_button_width, timer_button_height))
 
-        button_click_check.append(1)
-        button_click_check.remove(0)
+        start_timer_check.append(1)
+        start_timer_check.remove(0)
 
         start_time = time.time()
 
@@ -202,6 +221,10 @@ def title():
     WIN.blit(title_display_s, textRect7)
     WIN.blit(title_display_cube_timer, textRect8)
 
+def stats():
+    #write code for stats here
+    print("Hello")
+
 def game_window_style():
     WIN.fill(bgColor)
 
@@ -214,6 +237,28 @@ def game_window_style():
     textRect9.bottomright = (window_width, window_height)
     WIN.blit(help_display, textRect9)
 
+    averages_display_font = pygame.font.Font(timer_display_font, help_size)
+    averages_display = averages_display_font.render("Statistics", True, timer_display_fg, timer_display_bg)
+    textRect11 = averages_display.get_rect()
+    textRect11.center = (100, 100)
+    WIN.blit(averages_display, textRect11)
+    if len(time_to_average) >= 5:
+        current_ao5 = round((float(time_to_average[-1]) + float(time_to_average[-2]) + float(time_to_average[-3]) + float(time_to_average[-4]) + float(time_to_average[-5])) / 5, 3)
+        if current_ao5 >= 60:
+            ao5_minutes = round(current_ao5 // 60, None)
+            ao5_seconds = round(current_ao5 - (60 * ao5_minutes), 3)
+            current_ao5 = f"{ao5_minutes}:{ao5_seconds}"
+        current_ao5 = str(current_ao5)
+    else:
+        current_ao5 = ""
+    averages_display = averages_display_font.render(f"Current average of 5: {current_ao5}", True, timer_display_fg, timer_display_bg)
+    textRect12 = averages_display.get_rect()
+    textRect12.center = (200, 200)
+    WIN.blit(averages_display, textRect12)
+
+
+
+    stats()
     title()
 
 
