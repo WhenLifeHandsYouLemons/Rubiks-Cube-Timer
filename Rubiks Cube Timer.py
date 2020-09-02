@@ -1,9 +1,19 @@
 """
 high level support for doing this and that
 """
+import sys
+import os
 import time
 import pygame
 pygame.init()
+
+def get_true_filename(filename):
+    try:
+        base = sys._MEIPASS
+    except Exception:
+        base = os.path.abspath(".")
+    return os.path.join(base, filename)
+
 
 window_height = 680
 window_width = 1250
@@ -19,7 +29,7 @@ time_taken = ["0.000"]
 all_times = []
 time_to_average = []
 
-with open("C:/Users/2005s/Documents/Visual Studio Code/Pygame/Rubiks-Cube-Timer/Session1.txt", "r") as f:
+with open(get_true_filename("C:/Users/2005s/Documents/Visual Studio Code/Pygame/Rubiks-Cube-Timer/Session1.txt"), "r") as f:
     content = f.read()
     lines = content.splitlines()
     for line in lines:
