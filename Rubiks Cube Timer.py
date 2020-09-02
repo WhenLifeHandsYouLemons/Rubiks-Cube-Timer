@@ -160,7 +160,7 @@ def start_timer():
     if start_timer_check[0] == 1:
         timer_function()
 
-    elif keys[pygame.K_RALT] or keys[pygame.K_LALT] and start_timer_check[0] == 0:
+    elif keys[pygame.K_RALT] or keys[pygame.K_LALT] or keys[pygame.K_LCTRL] or keys[pygame.K_RCTRL] and start_timer_check[0] == 0:
         start_timer_check.append(1)
         start_timer_check.remove(0)
 
