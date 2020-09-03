@@ -28,6 +28,7 @@ start_time = 0
 time_taken = ["0.000"]
 all_times = []
 time_to_average = []
+mean_times = []
 
 with open(get_true_filename("C:/Users/2005s/Documents/Visual Studio Code/Pygame/Rubiks-Cube-Timer/Session1.txt"), "r") as f:
     content = f.read()
@@ -51,7 +52,16 @@ start_display_x = timer_button_x + (timer_button_width // 2)
 start_display_y = timer_button_y + (timer_button_height // 2)
 start_fg = 0, 0, 0
 
+statistic_display_font = "C:/Windows/Fonts/Arial.ttf"
+statistic_display_size = 36
+
 start_timer_check = [0]
+
+total_mean_x = 0
+total_mean_y = 150
+
+current_ao5_x = 0
+current_ao5_y = total_mean_y + 30
 
 help_size = 24
 
@@ -137,6 +147,7 @@ def timer_function():
                     total_time = (f"{total_minutes}:{total_seconds}")
                 else:
                     total_time = (f"{total_minutes}:0{total_seconds}")
+            mean_times.append(total_time)
             total_time = str(total_time)
             time_taken.append(total_time)
 
@@ -242,16 +253,20 @@ def game_window_style():
     pygame.draw.rect(WIN, (title_box_bg), (0, 0, window_width, timer_button_height))
 
     help_font = pygame.font.Font(timer_display_font, help_size)
-    help_display = help_font.render("Press 'alt' to start, press 'space' to stop", True, timer_display_fg, timer_display_bg)
+    help_display = help_font.render("Press 'alt' or 'command' to start, press 'space' to stop", True, timer_display_fg, timer_display_bg)
     textRect9 = help_display.get_rect()
     textRect9.bottomright = (window_width, window_height)
     WIN.blit(help_display, textRect9)
 
-    averages_display_font = pygame.font.Font(timer_display_font, help_size)
-    averages_display = averages_display_font.render("Statistics", True, timer_display_fg, timer_display_bg)
-    textRect11 = averages_display.get_rect()
-    textRect11.center = (100, 100)
-    WIN.blit(averages_display, textRect11)
+    stats_display_font = pygame.font.Font(statistic_display_font, statistic_display_size)
+    stats_display = stats_display_font.render("Statistics", True, timer_display_fg, timer_display_bg)
+    textRect11 = stats_display.get_rect()
+    textRect11.center = (stats_width // 2, timer_button_height + 20)
+    WIN.blit(stats_display, textRect11)
+    if len(mean_times) == 0:
+        mean = ""
+    else:
+        mean = round(sum(mean_times) / len(mean_times), 3)
     if len(time_to_average) >= 5:
         current_ao5 = round((float(time_to_average[-1]) + float(time_to_average[-2]) + float(time_to_average[-3]) + float(time_to_average[-4]) + float(time_to_average[-5])) / 5, 3)
         if current_ao5 >= 60:
@@ -261,10 +276,15 @@ def game_window_style():
         current_ao5 = str(current_ao5)
     else:
         current_ao5 = ""
+    averages_display_font = pygame.font.Font(timer_display_font, help_size)
     averages_display = averages_display_font.render(f"Current average of 5: {current_ao5}", True, timer_display_fg, timer_display_bg)
     textRect12 = averages_display.get_rect()
-    textRect12.center = (200, 200)
+    textRect12.topleft = (current_ao5_x, current_ao5_y)
     WIN.blit(averages_display, textRect12)
+    mean_display = averages_display_font.render(f"Total mean: {mean}", True, timer_display_fg, timer_display_bg)
+    textRect13 = mean_display.get_rect()
+    textRect13.topleft = (total_mean_x, total_mean_y)
+    WIN.blit(mean_display, textRect13)
 
 
 
