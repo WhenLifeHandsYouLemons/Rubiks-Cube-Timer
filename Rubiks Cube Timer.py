@@ -54,6 +54,7 @@ start_fg = 0, 0, 0
 
 statistic_display_font = "C:/Windows/Fonts/Arial.ttf"
 statistic_display_size = 36
+statistic_text_colour = 0, 0, 0
 
 start_timer_check = [0]
 
@@ -259,7 +260,7 @@ def game_window_style():
     WIN.blit(help_display, textRect9)
 
     stats_display_font = pygame.font.Font(statistic_display_font, statistic_display_size)
-    stats_display = stats_display_font.render("Statistics", True, timer_display_fg, timer_display_bg)
+    stats_display = stats_display_font.render("Statistics", True, statistic_text_colour, timer_display_bg)
     textRect11 = stats_display.get_rect()
     textRect11.center = (stats_width // 2, timer_button_height + 20)
     WIN.blit(stats_display, textRect11)
@@ -277,11 +278,11 @@ def game_window_style():
     else:
         current_ao5 = ""
     averages_display_font = pygame.font.Font(timer_display_font, help_size)
-    averages_display = averages_display_font.render(f"Current average of 5: {current_ao5}", True, timer_display_fg, timer_display_bg)
+    averages_display = averages_display_font.render(f"Current average of 5: {current_ao5}", True, statistic_text_colour, timer_display_bg)
     textRect12 = averages_display.get_rect()
     textRect12.topleft = (current_ao5_x, current_ao5_y)
     WIN.blit(averages_display, textRect12)
-    mean_display = averages_display_font.render(f"Total mean: {mean}", True, timer_display_fg, timer_display_bg)
+    mean_display = averages_display_font.render(f"Total mean: {mean}", True, statistic_text_colour, timer_display_bg)
     textRect13 = mean_display.get_rect()
     textRect13.topleft = (total_mean_x, total_mean_y)
     WIN.blit(mean_display, textRect13)
