@@ -15,7 +15,7 @@ def get_true_filename(filename):
     return os.path.join(base, filename)
 
 
-window_height = 680
+window_height = 645
 window_width = 1250
 #This sets the size of the window.
 WIN = pygame.display.set_mode((window_width, window_height))
@@ -138,9 +138,15 @@ def timer_function():
             time_start.append(0)
             time_start.remove(1)
             time_taken.clear()
-        
+
+            all_times.append(total_time)
+            add_to_file = "\n".join(all_times)
+            with open("C:/Users/2005s/Documents/Visual Studio Code/Pygame/Rubiks-Cube-Timer/Session1.txt", "w") as f:
+                    f.write(add_to_file)
+            
             total_time = float(total_time)
             time_to_average.append(total_time)
+            mean_times.append(total_time)
             if total_time > 60:
                 total_minutes = round(total_time // 60, None)
                 total_seconds = round(total_time - (60 * total_minutes), 3)
@@ -148,14 +154,13 @@ def timer_function():
                     total_time = (f"{total_minutes}:{total_seconds}")
                 else:
                     total_time = (f"{total_minutes}:0{total_seconds}")
-            mean_times.append(total_time)
             total_time = str(total_time)
             time_taken.append(total_time)
 
-            all_times.append(total_time)
-            add_to_file = "\n".join(all_times)
-            with open("C:/Users/2005s/Documents/Visual Studio Code/Pygame/Rubiks-Cube-Timer/Session1.txt", "w") as f:
-                    f.write(add_to_file)
+#            all_times.append(total_time)
+#            add_to_file = "\n".join(all_times)
+#            with open("C:/Users/2005s/Documents/Visual Studio Code/Pygame/Rubiks-Cube-Timer/Session1.txt", "w") as f:
+#                    f.write(add_to_file)
 
 #        if mouse[0] > timer_button_x and mouse[0] < timer_button_x + timer_button_width and mouse[1] > timer_button_y and mouse[1] < timer_button_y + timer_button_height and pygame.mouse.get_pressed()[0]:
 #            start_timer_check.append(0)
@@ -245,20 +250,6 @@ def title():
 
 def stats():
     #write code for stats here
-    print("Hello")
-
-def game_window_style():
-    WIN.fill(bgColor)
-
-    pygame.draw.rect(WIN, (stats_bg), (0, 0, stats_width, window_height))
-    pygame.draw.rect(WIN, (title_box_bg), (0, 0, window_width, timer_button_height))
-
-    help_font = pygame.font.Font(timer_display_font, help_size)
-    help_display = help_font.render("Press 'alt' or 'command' to start, press 'space' to stop", True, timer_display_fg, timer_display_bg)
-    textRect9 = help_display.get_rect()
-    textRect9.bottomright = (window_width, window_height)
-    WIN.blit(help_display, textRect9)
-
     stats_display_font = pygame.font.Font(statistic_display_font, statistic_display_size)
     stats_display = stats_display_font.render("Statistics", True, statistic_text_colour, timer_display_bg)
     textRect11 = stats_display.get_rect()
@@ -287,7 +278,17 @@ def game_window_style():
     textRect13.topleft = (total_mean_x, total_mean_y)
     WIN.blit(mean_display, textRect13)
 
+def game_window_style():
+    WIN.fill(bgColor)
 
+    pygame.draw.rect(WIN, (stats_bg), (0, 0, stats_width, window_height))
+    pygame.draw.rect(WIN, (title_box_bg), (0, 0, window_width, timer_button_height))
+
+    help_font = pygame.font.Font(timer_display_font, help_size)
+    help_display = help_font.render("Press 'alt' or 'command' to start, press 'space' to stop", True, timer_display_fg, timer_display_bg)
+    textRect9 = help_display.get_rect()
+    textRect9.bottomright = (window_width, window_height)
+    WIN.blit(help_display, textRect9)
 
     stats()
     title()
