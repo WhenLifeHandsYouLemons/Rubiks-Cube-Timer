@@ -30,7 +30,7 @@ all_times = []
 time_to_average = []
 mean_times = []
 
-with open(get_true_filename("C:/Users/2005s/Documents/Visual Studio Code/Pygame/Rubiks-Cube-Timer/Session1.txt"), "r") as f:
+with open(get_true_filename("C:/Users/2005s/Documents/Visual Studio Code/Pygame/Rubiks-Cube-Timer/Sessions/Session1.txt"), "r") as f:
     content = f.read()
     lines = content.splitlines()
     for line in lines:
@@ -52,7 +52,7 @@ start_display_x = timer_button_x + (timer_button_width // 2)
 start_display_y = timer_button_y + (timer_button_height // 2)
 start_fg = 0, 0, 0
 
-statistic_display_font = "C:/Windows/Fonts/Arial.ttf"
+statistic_display_font = get_true_filename("C:/Users/2005s/Documents/Visual Studio Code/Pygame/Rubiks-Cube-Timer/Fonts/arialbd.ttf")
 statistic_display_size = 36
 statistic_text_colour = 0, 0, 0
 
@@ -64,9 +64,12 @@ total_mean_y = 150
 current_ao5_x = 0
 current_ao5_y = total_mean_y + 30
 
+current_ao12_x = 0
+current_ao12_y = current_ao5_y + 30
+
 help_size = 24
 
-timer_display_font = "C:/Windows/Fonts/Arial.ttf"
+timer_display_font = get_true_filename("C:/Users/2005s/Documents/Visual Studio Code/Pygame/Rubiks-Cube-Timer/Fonts/arial.ttf")
 timer_display_size = 150
 timer_display_fg = 255, 255, 255
 timer_display_bg = None
@@ -99,7 +102,7 @@ title_display_s_y = timer_button_height // 2
 title_display_cube_timer_x = (window_width // 18) * (25 / 2)
 title_display_cube_timer_y = timer_button_height // 2
 title_size = 80
-title_display_font = "C:/Users/2005s/Documents/Fonts/joystix.ttf"
+title_display_font = get_true_filename("C:/Users/2005s/Documents/Visual Studio Code/Pygame/Rubiks-Cube-Timer/Fonts/joystix.ttf")
 stats_width = timer_button_x - (window_width - (timer_button_width + timer_button_x))
 stats_bg = 150, 150, 150
 
@@ -141,7 +144,7 @@ def timer_function():
 
             all_times.append(total_time)
             add_to_file = "\n".join(all_times)
-            with open("C:/Users/2005s/Documents/Visual Studio Code/Pygame/Rubiks-Cube-Timer/Session1.txt", "w") as f:
+            with open("C:/Users/2005s/Documents/Visual Studio Code/Pygame/Rubiks-Cube-Timer/Sessions/Session1.txt", "w") as f:
                     f.write(add_to_file)
             
             total_time = float(total_time)
@@ -159,7 +162,7 @@ def timer_function():
 
 #            all_times.append(total_time)
 #            add_to_file = "\n".join(all_times)
-#            with open("C:/Users/2005s/Documents/Visual Studio Code/Pygame/Rubiks-Cube-Timer/Session1.txt", "w") as f:
+#            with open("C:/Users/2005s/Documents/Visual Studio Code/Pygame/Rubiks-Cube-Timer/Sessions/Session1.txt", "w") as f:
 #                    f.write(add_to_file)
 
 #        if mouse[0] > timer_button_x and mouse[0] < timer_button_x + timer_button_width and mouse[1] > timer_button_y and mouse[1] < timer_button_y + timer_button_height and pygame.mouse.get_pressed()[0]:
@@ -269,14 +272,30 @@ def stats():
     else:
         current_ao5 = ""
     averages_display_font = pygame.font.Font(timer_display_font, help_size)
-    averages_display = averages_display_font.render(f"Current average of 5: {current_ao5}", True, statistic_text_colour, timer_display_bg)
-    textRect12 = averages_display.get_rect()
+    current_ao5_display = averages_display_font.render(f"Current average of 5: {current_ao5}", True, statistic_text_colour, timer_display_bg)
+    textRect12 = current_ao5_display.get_rect()
     textRect12.topleft = (current_ao5_x, current_ao5_y)
-    WIN.blit(averages_display, textRect12)
-    mean_display = averages_display_font.render(f"Total mean: {mean}", True, statistic_text_colour, timer_display_bg)
-    textRect13 = mean_display.get_rect()
-    textRect13.topleft = (total_mean_x, total_mean_y)
-    WIN.blit(mean_display, textRect13)
+    WIN.blit(current_ao5_display, textRect12)
+
+    if len(time_to_average) >= 12:
+        current_ao12 = round((float(time_to_average[-1]) + float(time_to_average[-2]) + float(time_to_average[-3]) + float(time_to_average[-4]) + float(time_to_average[-5]) + float(time_to_average[-6]) + float(time_to_average[-7]) + float(time_to_average[-8]) + float(time_to_average[-9]) + float(time_to_average[-10]) + float(time_to_average[-11]) + float(time_to_average[-12])) / 12, 3)
+        if current_ao12 >= 60:
+            ao12_minutes = round(current_ao12 // 60, None)
+            ao12_seconds = round(current_ao12 - (60 * ao12_minutes), 3)
+            current_ao12 = f"{ao12_minutes}:{ao12_seconds}"
+        current_ao12 = str(current_ao12)
+    else:
+        current_ao12 = ""
+
+    current_ao12_display = averages_display_font.render(f"Current average of 12: {current_ao12}", True, statistic_text_colour, timer_display_bg)
+    textRect13 = current_ao12_display.get_rect()
+    textRect13.topleft = (current_ao12_x, current_ao12_y)
+    WIN.blit(current_ao12_display, textRect13)
+
+    mean_display = averages_display_font.render(f"Total average: {mean}", True, statistic_text_colour, timer_display_bg)
+    textRect14 = mean_display.get_rect()
+    textRect14.topleft = (total_mean_x, total_mean_y)
+    WIN.blit(mean_display, textRect14)
 
 def game_window_style():
     WIN.fill(bgColor)
