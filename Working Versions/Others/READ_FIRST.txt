@@ -1,0 +1,2 @@
+1. Unzip the "Rubik's Cube Timer v6 (zipped)".
+2. Read the "READ_ME_FIRST_BEFORE_YOU_OPEN_THE_APP_FOR_THE_FIRST_TIME". (Inside the "Rubiks-Cube-Timer" folder

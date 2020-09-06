@@ -15,6 +15,8 @@ def get_true_filename(filename):
     return os.path.join(base, filename)
 
 
+
+
 window_height = 645
 window_width = 1250
 #This sets the size of the window.
@@ -36,6 +38,8 @@ with open(get_true_filename("C:/Users/2005s/Documents/Visual Studio Code/Pygame/
     for line in lines:
         print(line)
         all_times.append(line)
+        line = float(line)
+        mean_times.append(line)
         print(all_times)
 
 line_no = 0
