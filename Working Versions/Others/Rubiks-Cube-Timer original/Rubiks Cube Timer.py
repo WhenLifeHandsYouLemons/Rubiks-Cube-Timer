@@ -7,12 +7,12 @@ import time
 import pygame
 pygame.init()
 
-def get_true_filename(filename):
-    try:
-        base = sys._MEIPASS
-    except Exception:
-        base = os.path.abspath(".")
-    return os.path.join(base, filename)
+#def get_true_filename(filename):
+#    try:
+#        base = sys._MEIPASS
+#    except Exception:
+#        base = os.path.abspath(".")
+#    return os.path.join(base, filename)
 
 
 
@@ -32,7 +32,7 @@ all_times = []
 time_to_average = []
 mean_times = []
 
-with open(get_true_filename("C:/Users/2005s/Documents/Visual Studio Code/Pygame/Rubiks-Cube-Timer/Rubiks-Cube-Timer/Sessions/Session1.txt"), "r") as f:
+with open("C:/Rubiks-Cube-Timer/Sessions/Session1.txt", "r") as f:
     content = f.read()
     lines = content.splitlines()
     for line in lines:
@@ -56,7 +56,7 @@ start_display_x = timer_button_x + (timer_button_width // 2)
 start_display_y = timer_button_y + (timer_button_height // 2)
 start_fg = 0, 0, 0
 
-statistic_display_font = get_true_filename("C:/Rubiks-Cube-Timer/Rubiks-Cube-Timer/Fonts/arialbd.ttf")
+statistic_display_font = "C:/Rubiks-Cube-Timer/Fonts/arialbd.ttf"
 statistic_display_size = 36
 statistic_text_colour = 0, 0, 0
 
@@ -73,7 +73,7 @@ current_ao12_y = current_ao5_y + 30
 
 help_size = 24
 
-timer_display_font = get_true_filename("C:/Rubiks-Cube-Timer/Rubiks-Cube-Timer/Fonts/arial.ttf")
+timer_display_font = "C:/Rubiks-Cube-Timer/Fonts/arial.ttf"
 timer_display_size = 150
 timer_display_fg = 255, 255, 255
 timer_display_bg = None
@@ -106,7 +106,7 @@ title_display_s_y = timer_button_height // 2
 title_display_cube_timer_x = (window_width // 18) * (25 / 2)
 title_display_cube_timer_y = timer_button_height // 2
 title_size = 80
-title_display_font = get_true_filename("C:/Rubiks-Cube-Timer/Rubiks-Cube-Timer/Fonts/joystix.ttf")
+title_display_font = "C:/Rubiks-Cube-Timer/Fonts/joystix.ttf"
 stats_width = timer_button_x - (window_width - (timer_button_width + timer_button_x))
 stats_bg = 150, 150, 150
 
@@ -148,7 +148,7 @@ def timer_function():
 
             all_times.append(total_time)
             add_to_file = "\n".join(all_times)
-            with open("C:/Rubiks-Cube-Timer/Rubiks-Cube-Timer/Sessions/Session1.txt", "w") as f:
+            with open("C:/Rubiks-Cube-Timer/Sessions/Session1.txt", "w") as f:
                     f.write(add_to_file)
             
             total_time = float(total_time)
@@ -166,7 +166,7 @@ def timer_function():
 
 #            all_times.append(total_time)
 #            add_to_file = "\n".join(all_times)
-#            with open("C:/Rubiks-Cube-Timer/Rubiks-Cube-Timer/Sessions/Session1.txt", "w") as f:
+#            with open("C:/Rubiks-Cube-Timer/Sessions/Session1.txt", "w") as f:
 #                    f.write(add_to_file)
 
 #        if mouse[0] > timer_button_x and mouse[0] < timer_button_x + timer_button_width and mouse[1] > timer_button_y and mouse[1] < timer_button_y + timer_button_height and pygame.mouse.get_pressed()[0]:
