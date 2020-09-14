@@ -14,11 +14,15 @@ def get_true_filename(filename):
         base = os.path.abspath(".")
     return os.path.join(base, filename)
 
+game_icon = pygame.image.load(get_true_filename("C:/Rubiks-Cube-Timer - Copy/logo_2 real.png"))
+game_icon.set_colorkey((0, 255, 0))
+
 window_height = 645
 window_width = 1250
 #This sets the size of the window.
 WIN = pygame.display.set_mode((window_width, window_height))
 pygame.display.set_caption("Rubik's Cube Timer")
+pygame.display.set_icon(game_icon)
 
 bg_colour = 0, 0, 0
 
@@ -45,14 +49,14 @@ with open(get_true_filename("C:/Users/2005s/Documents/Visual Studio Code/Python/
         line = float(line)
         times_to_mean.append(line)
 
-with open(get_true_filename("C:/Users/2005s/Documents/Visual Studio Code/Python/Pygame/Rubiks-Cube-Timer/Averages/ao5.txt"), "r") as f:
+with open("C:/Users/2005s/Documents/Visual Studio Code/Python/Pygame/Rubiks-Cube-Timer/Averages/ao5.txt", "r") as f:
     content = f.read()
     lines = content.splitlines()
     for line in lines:
         line = float(line)
         all_ao5.append(line)
 
-with open(get_true_filename("C:/Users/2005s/Documents/Visual Studio Code/Python/Pygame/Rubiks-Cube-Timer/Averages/ao12.txt"), "r") as f:
+with open("C:/Users/2005s/Documents/Visual Studio Code/Python/Pygame/Rubiks-Cube-Timer/Averages/ao12.txt", "r") as f:
     content = f.read()
     lines = content.splitlines()
     for line in lines:
@@ -192,7 +196,7 @@ def timer_function():
 
 #            all_times.append(total_time)
 #            add_to_file = "\n".join(all_times)
-#            with open("C:/Users/2005s/Documents/Visual Studio Code/Pygame/Rubiks-Cube-Timer/Sessions/Session1.txt", "w") as f:
+#            with open("C:/Users/2005s/Documents/Visual Studio Code/Python/Pygame/Rubiks-Cube-Timer/Sessions/Session1.txt", "w") as f:
 #                    f.write(add_to_file)
 
 #        if mouse[0] > timer_button_x and mouse[0] < timer_button_x + timer_button_width and mouse[1] > timer_button_y and mouse[1] < timer_button_y + timer_button_height and pygame.mouse.get_pressed()[0]:
@@ -306,10 +310,10 @@ def stats():
         mean = ""
     else:
         mean = round(sum(times_to_mean) / len(times_to_mean), 3)
-
+    
     if len(times_to_average) >= 5:
         current_ao5 = round((float(times_to_average[-1]) + float(times_to_average[-2]) + float(times_to_average[-3]) + float(times_to_average[-4]) + float(times_to_average[-5])) / 5, 3)
-
+    
         if ao5_check[0] == 0:
             all_ao5.append((current_ao5))
             ao5_check.remove(0)
@@ -319,7 +323,7 @@ def stats():
             current_ao5_minutes = round(current_ao5 // 60, None)
             current_ao5_seconds = round(current_ao5 - (60 * current_ao5_minutes), 3)
             current_ao5 = f"{current_ao5_minutes}:{current_ao5_seconds}"
-        
+    
         current_ao5 = str(current_ao5)
     else:
         current_ao5 = ""
@@ -414,6 +418,7 @@ def game_window_style():
 
     pygame.draw.rect(WIN, (stats_bg), (0, 0, stats_width, window_height))
     pygame.draw.rect(WIN, (title_box_bg), (0, 0, window_width, timer_button_height))
+
 
     clear_times()
     help()
