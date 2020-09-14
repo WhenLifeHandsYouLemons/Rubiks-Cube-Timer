@@ -14,7 +14,7 @@ def get_true_filename(filename):
         base = os.path.abspath(".")
     return os.path.join(base, filename)
 
-game_icon = pygame.image.load(get_true_filename("C:/Rubiks-Cube-Timer - Copy/logo_2 real.png"))
+game_icon = pygame.image.load(get_true_filename("C:/Rubiks-Cube-Timer 1/logo_2_greenbg.png"))
 game_icon.set_colorkey((0, 255, 0))
 
 window_height = 645
