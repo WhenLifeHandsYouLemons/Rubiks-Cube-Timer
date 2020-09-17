@@ -14,10 +14,25 @@ except WindowsError:
     print("Already exists!")
 
 try:
-    open("C:/Rubik's Cube Timer/Averages/ao5.txt", "w+")
-    open("C:/Rubik's Cube Timer/Averages/ao12.txt", "w+")
-    open("C:/Rubik's Cube Timer/Sessions/Session1.txt", "w+")
-    open("C:/Rubik's Cube Timer/Settings.txt", "w+")
+    if not os.path.exists("C:/Rubik's Cube Timer/Settings.txt"):
+        open("C:/Rubik's Cube Timer/Settings.txt", "w+")
+    else:
+        print("Already exists!")
+
+    if not os.path.exists("C:/Rubik's Cube Timer/Averages/ao5.txt"):
+        open("C:/Rubik's Cube Timer/Averages/ao5.txt", "w+")
+    else:
+        print("Already exists!")
+
+    if not os.path.exists("C:/Rubik's Cube Timer/Averages/ao12.txt"):
+        open("C:/Rubik's Cube Timer/Averages/ao12.txt", "w+")
+    else:
+        print("Already exists!")
+
+    if not os.path.exists("C:/Rubik's Cube Timer/Sessions/Session1.txt"):
+        open("C:/Rubik's Cube Timer/Sessions/Session1.txt", "w+")
+    else:
+        print("Already exists!")
 
     time.sleep(2.5)
     
