@@ -434,6 +434,9 @@ while RUNNING_WINDOW:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             RUNNING_WINDOW = False
+        if event.type == pygame.KEY_UP:
+            if event.key == pygame.K_SPACE:
+                print("Space bar released")
 
     keys = pygame.key.get_pressed()
     mouse = pygame.mouse.get_pos()

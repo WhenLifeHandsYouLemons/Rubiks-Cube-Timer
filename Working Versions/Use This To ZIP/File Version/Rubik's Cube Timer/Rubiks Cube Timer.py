@@ -5,6 +5,7 @@ import sys
 import os
 import time
 import pygame
+#from pygame.locals import *
 pygame.init()
 
 def get_true_filename(filename):
@@ -127,7 +128,7 @@ title_display_b_x = (window_width // 18) * 3
 title_display_b_y = timer_button_height // 2
 title_display_i_x = (window_width // 18) * 4
 title_display_i_y = timer_button_height // 2
-title_display_k_x =(window_width // 18) * 5
+title_display_k_x = (window_width // 18) * 5
 title_display_k_y = timer_button_height // 2
 title_display_apostrophe_x = (window_width // 18) * 6
 title_display_apostrophe_y = timer_button_height // 2
@@ -206,7 +207,10 @@ def timer_function():
         mouse = pygame.mouse.get_pos()
         
         if keys[pygame.K_SPACE]:
-
+#        if event.type == KEYUP and start_timer_check[0] == 1:
+#            if event.key == K_SPACE:
+#                print("Space bar released")
+#                time.sleep(0.5)
             start_timer_check.append(0)
             start_timer_check.remove(1)
         
@@ -217,7 +221,7 @@ def timer_function():
             all_times.append(total_time)
             add_to_file = "\n".join(all_times)
             with open(f"C:/Rubik's Cube Timer/Sessions/Session{session_no}.txt", "w") as f:
-                    f.write(add_to_file)
+                f.write(add_to_file)
             
             total_time = float(total_time)
             times_to_average.append(total_time)
@@ -240,6 +244,9 @@ def start_timer():
     if start_timer_check[0] == 1:
         timer_function()
 
+#    if event.type == KEYUP and start_timer_check[0] == 0:
+#        if event.key == K_SPACE:
+#            print("Space bar released")
     elif keys[pygame.K_RALT] or keys[pygame.K_LALT] and start_timer_check[0] == 0:
         start_timer_check.append(1)
         start_timer_check.remove(0)
@@ -339,7 +346,15 @@ def stats():
         mean = round(sum(times_to_mean) / len(times_to_mean), 3)
     
     if len(times_to_average) >= 5:
-        current_ao5 = round((float(times_to_average[-1]) + float(times_to_average[-2]) + float(times_to_average[-3]) + float(times_to_average[-4]) + float(times_to_average[-5])) / 5, 3)
+        current_ao5_list = []
+        current_ao5_list.append(float(times_to_average[-1]))
+        current_ao5_list.append(float(times_to_average[-2]))
+        current_ao5_list.append(float(times_to_average[-3]))
+        current_ao5_list.append(float(times_to_average[-4]))
+        current_ao5_list.append(float(times_to_average[-5]))
+        current_ao5_list.remove(max(current_ao5_list))
+        current_ao5_list.remove(min(current_ao5_list))
+        current_ao5 = round((current_ao5_list[0] + current_ao5_list[1] + current_ao5_list[2]) / 3, 3)
 
         if ao5_check[0] == 0:
             all_ao5.append((current_ao5))
@@ -377,7 +392,22 @@ def stats():
     WIN.blit(best_ao5_display, textRect15)
 
     if len(times_to_average) >= 12:
-        current_ao12 = round((float(times_to_average[-1]) + float(times_to_average[-2]) + float(times_to_average[-3]) + float(times_to_average[-4]) + float(times_to_average[-5]) + float(times_to_average[-6]) + float(times_to_average[-7]) + float(times_to_average[-8]) + float(times_to_average[-9]) + float(times_to_average[-10]) + float(times_to_average[-11]) + float(times_to_average[-12])) / 12, 3)
+        current_ao12_list = []
+        current_ao12_list.append(float(times_to_average[-1]))
+        current_ao12_list.append(float(times_to_average[-2]))
+        current_ao12_list.append(float(times_to_average[-3]))
+        current_ao12_list.append(float(times_to_average[-4]))
+        current_ao12_list.append(float(times_to_average[-5]))
+        current_ao12_list.append(float(times_to_average[-6]))
+        current_ao12_list.append(float(times_to_average[-7]))
+        current_ao12_list.append(float(times_to_average[-8]))
+        current_ao12_list.append(float(times_to_average[-9]))
+        current_ao12_list.append(float(times_to_average[-10]))
+        current_ao12_list.append(float(times_to_average[-11]))
+        current_ao12_list.append(float(times_to_average[-12]))
+        current_ao12_list.remove(max(current_ao12_list))
+        current_ao12_list.remove(min(current_ao12_list))
+        current_ao12 = round((current_ao12_list[0] + current_ao12_list[1] + current_ao12_list[2] + current_ao12_list[3] + current_ao12_list[4] + current_ao12_list[5] + current_ao12_list[6] + current_ao12_list[7] + current_ao12_list[8] + current_ao12_list[9]) / 10, 3)
 
         if ao12_check[0] == 0:
             all_ao12.append(current_ao12)
@@ -435,7 +465,7 @@ def options_bg():
     options_display_font = pygame.font.Font(statistic_display_font, title_size)
     options_display = options_display_font.render("Options", True, timer_display_fg, timer_display_bg)
     textRect17 = options_display.get_rect()
-    textRect17.topleft = (10, 0)
+    textRect17.topleft = (75, 0)
     WIN.blit(options_display, textRect17)
 
     help_font = pygame.font.Font(timer_display_font, help_size)
@@ -447,7 +477,7 @@ def options_bg():
     overlay = pygame.Surface((window_width, window_height))
     overlay.set_alpha(200)
     overlay.fill((0, 0, 0))
-    WIN.blit(overlay, (0,0))
+    WIN.blit(overlay, (0, 0))
 
     pygame.draw.rect(WIN, (stats_bg), (confirm_box_x, confirm_box_y, confirm_box_width, confirm_box_height))
 
@@ -492,6 +522,14 @@ def option_buttons():
                     RUNNING_WINDOW = False
                     pygame.time.wait(confirm_box_delay)
 
+                if mouse_click[0] > confirm_button_x and mouse_click[0] < confirm_button_x + cancel_button_width and mouse_click[1] > cancel_button_y and mouse_click[1] < cancel_button_y + cancel_button_height and pygame.mouse.get_pressed()[0]:
+                    print("Saved!")
+                    add_to_file = "\n".join(all_times)
+                    with open(f"C:/Users/2005s/Downloads/Session{session_no}.txt", "w") as f:
+                        f.write(add_to_file)
+                    RUNNING_WINDOW = False
+                    pygame.time.wait(confirm_box_delay)
+
                 pygame.display.update()
 
     def clear_times():
@@ -516,6 +554,13 @@ def option_buttons():
                 options_bg()
 
                 if mouse_click[0] > cancel_button_x and mouse_click[0] < cancel_button_x + cancel_button_width and mouse_click[1] > cancel_button_y and mouse_click[1] < cancel_button_y + cancel_button_height and pygame.mouse.get_pressed()[0]:
+                    RUNNING_WINDOW = False
+                    pygame.time.wait(confirm_box_delay)
+
+                if mouse_click[0] > confirm_button_x and mouse_click[0] < confirm_button_x + cancel_button_width and mouse_click[1] > cancel_button_y and mouse_click[1] < cancel_button_y + cancel_button_height and pygame.mouse.get_pressed()[0]:
+                    print("Cleared!")
+                    with open(f"C:/Rubik's Cube Timer/Sessions/Session{session_no}.txt", "w") as f:
+                        f.write("")
                     RUNNING_WINDOW = False
                     pygame.time.wait(confirm_box_delay)
 
@@ -640,6 +685,9 @@ while RUNNING_WINDOW:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             RUNNING_WINDOW = False
+#        if event.type == KEYUP:
+#            if event.key == K_SPACE:
+#                print("Space bar released")
 
     keys = pygame.key.get_pressed()
     mouse = pygame.mouse.get_pos()
