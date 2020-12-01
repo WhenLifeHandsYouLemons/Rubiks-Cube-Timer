@@ -1,13 +1,21 @@
 """
-high level support for doing this and that
+Made By: Sooraj Sannabhadti
+"""
+
+"""
+Imports
 """
 import sys
 import os
 import time
 import pygame
+import random
 #from pygame.locals import *
 pygame.init()
 
+"""
+File searching used when in '.exe' format
+"""
 def get_true_filename(filename):
     try:
         base = sys._MEIPASS
@@ -15,14 +23,18 @@ def get_true_filename(filename):
         base = os.path.abspath(".")
     return os.path.join(base, filename)
 
-#This sets the size of the window.
+"""
+App Window
+"""
 window_height = 645
 window_width = 1250
 WIN = pygame.display.set_mode((window_width, window_height))
 pygame.display.set_caption("Rubik's Cube Timer")
-
 bg_colour = 0, 0, 0
 
+""""
+Import settings for app
+"""
 settings = ["1"]
 with open("C:/Rubik's Cube Timer/Settings.txt", "r") as f:
     content = f.read()
@@ -31,9 +43,25 @@ with open("C:/Rubik's Cube Timer/Settings.txt", "r") as f:
         settings.append(line)
 session_no = settings[0]
 
+"""
+Scrambler
+"""
+all_moves = ["U", "D", "L", "R", "F", "B", "U2", "D2", "L2", "R2", "F2", "B2", "U'", "D'", "L'", "R'", "F'", "B'"]
+print(random.choice(all_moves))
+current_scramble_list = []
+current_scramble = ""
+
+"""
+Timer
+"""
 time_start = [0]
 start_time = 0
 time_taken = ["0.000"]
+start_timer_check = [0]
+
+"""
+Statistics
+"""
 all_times = []
 times_to_average = []
 times_to_mean = []
@@ -46,6 +74,9 @@ ao12_check = [0]
 length_ao5 = 0
 length_ao12 = 0
 
+"""
+Import times and averages
+"""
 with open(f"C:/Rubik's Cube Timer/Sessions/Session{session_no}.txt", "r") as f:
     content = f.read()
     lines = content.splitlines()
@@ -68,8 +99,9 @@ with open("C:/Rubik's Cube Timer/Averages/ao12.txt", "r") as f:
         line = float(line)
         all_ao12.append(line)
 
-current_ao5 = ""
-
+"""
+Timer start/stop button
+"""
 timer_button_x = 700
 timer_button_y = 450
 timer_button_height = 100
@@ -81,36 +113,47 @@ start_display_x = timer_button_x + (timer_button_width // 2)
 start_display_y = timer_button_y + (timer_button_height // 2)
 start_fg = 0, 0, 0
 
+"""
+Statistics display
+"""
 statistic_display_font = get_true_filename("arialbd.ttf")
+statistic_display_font = "C:/Rubiks-Cube-Timer 1/arialbd.ttf"
 statistic_display_size = 36
 statistic_text_colour = 0, 0, 0
-
-start_timer_check = [0]
-
-total_mean_x = 0
-total_mean_y = 150
-
-current_ao5_x = 0
+best_time_x = 10
+best_time_y = 150
+worst_time_x = 10
+worst_time_y = best_time_y + 30
+total_mean_x = 10
+total_mean_y = worst_time_y + 30
+current_ao5_x = 10
 current_ao5_y = total_mean_y + 30
-
-current_ao12_x = 0
+current_ao12_x = 10
 current_ao12_y = current_ao5_y + 30
-
-best_ao5_x = 0
+best_ao5_x = 10
 best_ao5_y = current_ao12_y + 30
-
-best_ao12_x = 0
+best_ao12_x = 10
 best_ao12_y = best_ao5_y + 30
 
+"""
+Help text
+"""
 help_size = 24
 
+"""
+Timer display
+"""
 timer_display_font = get_true_filename("arial.ttf")
+timer_display_font = "C:/Rubiks-Cube-Timer 1/arial.ttf"
 timer_display_size = 150
 timer_display_fg = 255, 255, 255
 timer_display_bg = None
 timer_display_x = timer_button_x - timer_button_x / 10
 timer_display_y = 200
 
+"""
+Title display
+"""
 title_box_colour = 30, 30, 30
 title_bg = None
 title_cube_timer_fg = 170, 170, 170
@@ -138,34 +181,35 @@ title_display_cube_timer_x = (window_width // 18) * (25 / 2)
 title_display_cube_timer_y = timer_button_height // 2
 title_size = 80
 title_display_font = get_true_filename("joystix.ttf")
+title_display_font = "C:/Rubiks-Cube-Timer 1/joystix.ttf"
 stats_width = timer_button_x - (window_width - (timer_button_width + timer_button_x))
 stats_bg = 150, 150, 150
 
+"""
+Options
+"""
 option_button_x = 0
 option_button_y = 0
 option_button_width = 30
 option_button_height = 30
-
 option_buttons_height = 230
 option_buttons_width = option_buttons_height
-
 options_save_times_x = 100
 options_save_times_y = 125
-
 options_clear_times_x = options_save_times_x
 options_clear_times_y = options_save_times_y + option_buttons_height + 25
-
 options_new_session_x = options_save_times_x + option_buttons_width + 100
 options_new_session_y = options_save_times_y
-
 options_delete_session_x = options_clear_times_x + option_buttons_width + 100
 options_delete_session_y = options_clear_times_y
 
+"""
+Option confirm box
+"""
 confirm_box_width = 1000
 confirm_box_height = 500
 confirm_box_x = (window_width // 2) - (confirm_box_width // 2)
 confirm_box_y = (window_height // 2) - (confirm_box_height // 2)
-
 cancel_button_x = 150
 cancel_button_y = 400
 cancel_button_width = 400
@@ -177,7 +221,9 @@ confirm_text_x = confirm_button_x + (cancel_button_width // 2)
 confirm_text_y = cancel_button_y + (cancel_button_height // 2)
 confirm_box_delay = 200
 
-
+"""
+Timing and Stop Timer Function
+"""
 def timer_function():
 
     while start_timer_check[0] == 1:
@@ -190,7 +236,7 @@ def timer_function():
             start_time = time.time()
             time_start.append(1)
             time_start.remove(0)
-        
+
         timer_font = pygame.font.Font(timer_display_font, timer_display_size)
         total_time = str(round(time.time() - start_time, 3))
         timer_display = timer_font.render(total_time, True, timer_display_fg, timer_display_bg)
@@ -200,20 +246,16 @@ def timer_function():
         WIN.blit(timer_display, textRect)
 
         pygame.display.update()
-        
+
         game_window_style()
-        
+
         keys = pygame.key.get_pressed()
-        mouse = pygame.mouse.get_pos()
-        
+        #mouse = pygame.mouse.get_pos()
+
         if keys[pygame.K_SPACE]:
-#        if event.type == KEYUP and start_timer_check[0] == 1:
-#            if event.key == K_SPACE:
-#                print("Space bar released")
-#                time.sleep(0.5)
             start_timer_check.append(0)
             start_timer_check.remove(1)
-        
+
             time_start.append(0)
             time_start.remove(1)
             time_taken.clear()
@@ -222,7 +264,7 @@ def timer_function():
             add_to_file = "\n".join(all_times)
             with open(f"C:/Rubik's Cube Timer/Sessions/Session{session_no}.txt", "w") as f:
                 f.write(add_to_file)
-            
+
             total_time = float(total_time)
             times_to_average.append(total_time)
             times_to_mean.append(total_time)
@@ -240,13 +282,27 @@ def timer_function():
             ao12_check.append(0)
             ao12_check.remove(1)
 
+"""
+Start Timer Function
+"""
 def start_timer():
     if start_timer_check[0] == 1:
         timer_function()
+    #elif event.type == KEYUP and start_timer_check[0] == 0:
+        #if event.key == K_RALT or event.key == K_LALT and start_timer_check[0] == 0:
+            #start_timer_check.append(1)
+            #start_timer_check.remove(0)
 
-#    if event.type == KEYUP and start_timer_check[0] == 0:
-#        if event.key == K_SPACE:
-#            print("Space bar released")
+            # if ao5_check[0] == 0:
+            #     ao5_check.remove(0)
+            #     ao5_check.append(1)
+            # if ao12_check[0] == 0:
+            #     ao12_check.remove(0)
+            #     ao12_check.append(1)
+
+            # start_time = time.time()
+
+            # timer_function()
     elif keys[pygame.K_RALT] or keys[pygame.K_LALT] and start_timer_check[0] == 0:
         start_timer_check.append(1)
         start_timer_check.remove(0)
@@ -257,8 +313,6 @@ def start_timer():
         if ao12_check[0] == 0:
             ao12_check.remove(0)
             ao12_check.append(1)
-
-        start_time = time.time()
 
         timer_function()
 
@@ -275,8 +329,6 @@ def start_timer():
         if ao12_check[0] == 0:
             ao12_check.remove(0)
             ao12_check.append(1)
-
-        start_time = time.time()
 
         timer_function()
 
@@ -296,8 +348,14 @@ def start_timer():
         textRect10.center = (start_display_x, start_display_y)
         WIN.blit(start_display, textRect10)
 
+"""
+For FPS
+"""
 clock = pygame.time.Clock()
 
+"""
+RUBIK'S CUBE TIMER Title Design
+"""
 def title():
     title_font = pygame.font.Font(title_display_font, title_size)
     title_display_R = title_font.render("R", True, title_R_fg, title_bg)
@@ -333,6 +391,9 @@ def title():
     WIN.blit(title_display_s, textRect7)
     WIN.blit(title_display_cube_timer, textRect8)
 
+"""
+Statistics
+"""
 def stats():
     stats_display_font = pygame.font.Font(statistic_display_font, statistic_display_size)
     stats_display = stats_display_font.render("Statistics", True, statistic_text_colour, timer_display_bg)
@@ -344,7 +405,7 @@ def stats():
         mean = ""
     else:
         mean = round(sum(times_to_mean) / len(times_to_mean), 3)
-    
+
     if len(times_to_average) >= 5:
         current_ao5_list = []
         current_ao5_list.append(float(times_to_average[-1]))
@@ -365,7 +426,7 @@ def stats():
             current_ao5_minutes = round(current_ao5 // 60, None)
             current_ao5_seconds = round(current_ao5 - (60 * current_ao5_minutes), 3)
             current_ao5 = f"{current_ao5_minutes}:{current_ao5_seconds}"
-    
+
         current_ao5 = str(current_ao5)
     else:
         current_ao5 = ""
@@ -447,6 +508,39 @@ def stats():
     textRect14.topleft = (total_mean_x, total_mean_y)
     WIN.blit(mean_display, textRect14)
 
+    if len(times_to_mean) >= 1:
+        best_time = min(times_to_mean)
+        if best_time >= 60:
+            best_time_minutes = round(best_time // 60, None)
+            best_time_seconds = round(best_time - (60 * best_time_minutes), 3)
+            best_time = f"{best_time_minutes}:{best_time_seconds}"
+    else:
+        best_time = ""
+
+    best_display_font = pygame.font.Font(timer_display_font, help_size)
+    best_time_display = best_display_font.render(f"Best time: {best_time}", True, statistic_text_colour, timer_display_bg)
+    textRect20 = best_time_display.get_rect()
+    textRect20.topleft = (best_time_x, best_time_y)
+    WIN.blit(best_time_display, textRect20)
+
+    if len(times_to_mean) >= 1:
+        worst_time = max(times_to_mean)
+        if worst_time >= 60:
+            worst_time_minutes = round(worst_time // 60, None)
+            worst_time_seconds = round(worst_time - (60 * worst_time_minutes), 3)
+            worst_time = f"{worst_time_minutes}:{worst_time_seconds}"
+    else:
+        worst_time = ""
+
+    worst_display_font = pygame.font.Font(timer_display_font, help_size)
+    worst_time_display = worst_display_font.render(f"Worst time: {worst_time}", True, statistic_text_colour, timer_display_bg)
+    textRect21 = worst_time_display.get_rect()
+    textRect21.topleft = (worst_time_x, worst_time_y)
+    WIN.blit(worst_time_display, textRect21)
+
+"""
+Help Text
+"""
 def help():
     help_font = pygame.font.Font(timer_display_font, help_size)
     help_display = help_font.render("Press 'alt' to start, press 'space' to stop", True, timer_display_fg, timer_display_bg)
@@ -454,6 +548,9 @@ def help():
     textRect9.bottomright = (window_width, window_height)
     WIN.blit(help_display, textRect9)
 
+"""
+Options background for confirmation dialog box
+"""
 def options_bg():
     WIN.fill(bg_colour)
 
@@ -496,14 +593,20 @@ def options_bg():
     textRect19.center = (confirm_text_x, confirm_text_y)
     WIN.blit(confirm_display_text, textRect19)
 
+"""
+Option Buttons
+"""
 def option_buttons():
+    """
+    Save all times to another file function
+    """
     def save_times():
-        mouse_click = pygame.mouse.get_pos()
-        key_click = pygame.key.get_pressed()
+        mouse = pygame.mouse.get_pos()
+        keys = pygame.key.get_pressed()
 
         pygame.draw.rect(WIN, (stats_bg), (options_save_times_x, options_save_times_y, option_buttons_width, option_buttons_height))
 
-        if  mouse_click[0] > options_save_times_x and mouse_click[0] < options_save_times_x + option_buttons_width and mouse_click[1] > options_save_times_y and mouse_click[1] < options_save_times_y + option_buttons_height and pygame.mouse.get_pressed()[0]:
+        if  mouse[0] > options_save_times_x and mouse[0] < options_save_times_x + option_buttons_width and mouse[1] > options_save_times_y and mouse[1] < options_save_times_y + option_buttons_height and pygame.mouse.get_pressed()[0]:
             RUNNING_WINDOW = True
 
             pygame.time.wait(confirm_box_delay)
@@ -513,16 +616,16 @@ def option_buttons():
                     if event.type == pygame.QUIT:
                         pygame.quit()
 
-                key_click = pygame.key.get_pressed()
-                mouse_click = pygame.mouse.get_pos()
+                keys = pygame.key.get_pressed()
+                mouse = pygame.mouse.get_pos()
 
                 options_bg()
 
-                if mouse_click[0] > cancel_button_x and mouse_click[0] < cancel_button_x + cancel_button_width and mouse_click[1] > cancel_button_y and mouse_click[1] < cancel_button_y + cancel_button_height and pygame.mouse.get_pressed()[0]:
+                if mouse[0] > cancel_button_x and mouse[0] < cancel_button_x + cancel_button_width and mouse[1] > cancel_button_y and mouse[1] < cancel_button_y + cancel_button_height and pygame.mouse.get_pressed()[0]:
                     RUNNING_WINDOW = False
                     pygame.time.wait(confirm_box_delay)
 
-                if mouse_click[0] > confirm_button_x and mouse_click[0] < confirm_button_x + cancel_button_width and mouse_click[1] > cancel_button_y and mouse_click[1] < cancel_button_y + cancel_button_height and pygame.mouse.get_pressed()[0]:
+                if mouse[0] > confirm_button_x and mouse[0] < confirm_button_x + cancel_button_width and mouse[1] > cancel_button_y and mouse[1] < cancel_button_y + cancel_button_height and pygame.mouse.get_pressed()[0]:
                     print("Saved!")
                     add_to_file = "\n".join(all_times)
                     with open(f"C:/Users/2005s/Downloads/Session{session_no}.txt", "w") as f:
@@ -532,13 +635,16 @@ def option_buttons():
 
                 pygame.display.update()
 
+    """
+    Delete all times permanently function
+    """
     def clear_times():
-        mouse_click = pygame.mouse.get_pos()
-        key_click = pygame.key.get_pressed()
+        mouse = pygame.mouse.get_pos()
+        keys = pygame.key.get_pressed()
 
         pygame.draw.rect(WIN, (stats_bg), (options_clear_times_x, options_clear_times_y, option_buttons_width, option_buttons_height))
 
-        if  mouse_click[0] > options_clear_times_x and mouse_click[0] < options_clear_times_x + option_buttons_width and mouse_click[1] > options_clear_times_y and mouse_click[1] < options_clear_times_y + option_buttons_height and pygame.mouse.get_pressed()[0]:
+        if  mouse[0] > options_clear_times_x and mouse[0] < options_clear_times_x + option_buttons_width and mouse[1] > options_clear_times_y and mouse[1] < options_clear_times_y + option_buttons_height and pygame.mouse.get_pressed()[0]:
             RUNNING_WINDOW = True
 
             pygame.time.wait(confirm_box_delay)
@@ -547,32 +653,37 @@ def option_buttons():
                 for event in pygame.event.get():
                     if event.type == pygame.QUIT:
                         pygame.quit()
-                
-                mouse_click = pygame.mouse.get_pos()
-                key_click = pygame.key.get_pressed()
+                mouse = pygame.mouse.get_pos()
+                keys = pygame.key.get_pressed()
 
                 options_bg()
 
-                if mouse_click[0] > cancel_button_x and mouse_click[0] < cancel_button_x + cancel_button_width and mouse_click[1] > cancel_button_y and mouse_click[1] < cancel_button_y + cancel_button_height and pygame.mouse.get_pressed()[0]:
+                if mouse[0] > cancel_button_x and mouse[0] < cancel_button_x + cancel_button_width and mouse[1] > cancel_button_y and mouse[1] < cancel_button_y + cancel_button_height and pygame.mouse.get_pressed()[0]:
                     RUNNING_WINDOW = False
                     pygame.time.wait(confirm_box_delay)
 
-                if mouse_click[0] > confirm_button_x and mouse_click[0] < confirm_button_x + cancel_button_width and mouse_click[1] > cancel_button_y and mouse_click[1] < cancel_button_y + cancel_button_height and pygame.mouse.get_pressed()[0]:
+                if mouse[0] > confirm_button_x and mouse[0] < confirm_button_x + cancel_button_width and mouse[1] > cancel_button_y and mouse[1] < cancel_button_y + cancel_button_height and pygame.mouse.get_pressed()[0]:
                     print("Cleared!")
                     with open(f"C:/Rubik's Cube Timer/Sessions/Session{session_no}.txt", "w") as f:
                         f.write("")
-                    RUNNING_WINDOW = False
-                    pygame.time.wait(confirm_box_delay)
+                    with open(f"C:/Rubik's Cube Timer/Averages/ao5.txt", "w") as f:
+                        f.write("")
+                    with open(f"C:/Rubik's Cube Timer/Averages/ao12.txt", "w") as f:
+                        f.write("")
+                    pygame.quit()
 
                 pygame.display.update()
 
+    """
+    Make a new session function
+    """
     def new_session():
-        mouse_click = pygame.mouse.get_pos()
-        key_click = pygame.key.get_pressed()
+        mouse = pygame.mouse.get_pos()
+        keys = pygame.key.get_pressed()
 
         pygame.draw.rect(WIN, (stats_bg), (options_new_session_x, options_new_session_y, option_buttons_width, option_buttons_height))
-    
-        if  mouse_click[0] > options_new_session_x and mouse_click[0] < options_new_session_x + option_buttons_width and mouse_click[1] > options_new_session_y and mouse_click[1] < options_new_session_y + option_buttons_height and pygame.mouse.get_pressed()[0]:
+
+        if  mouse[0] > options_new_session_x and mouse[0] < options_new_session_x + option_buttons_width and mouse[1] > options_new_session_y and mouse[1] < options_new_session_y + option_buttons_height and pygame.mouse.get_pressed()[0]:
             RUNNING_WINDOW = True
 
             pygame.time.wait(confirm_box_delay)
@@ -581,25 +692,28 @@ def option_buttons():
                 for event in pygame.event.get():
                     if event.type == pygame.QUIT:
                         pygame.quit()
-                
-                mouse_click = pygame.mouse.get_pos()
-                key_click = pygame.key.get_pressed()
+
+                mouse = pygame.mouse.get_pos()
+                keys = pygame.key.get_pressed()
 
                 options_bg()
 
-                if mouse_click[0] > cancel_button_x and mouse_click[0] < cancel_button_x + cancel_button_width and mouse_click[1] > cancel_button_y and mouse_click[1] < cancel_button_y + cancel_button_height and pygame.mouse.get_pressed()[0]:
+                if mouse[0] > cancel_button_x and mouse[0] < cancel_button_x + cancel_button_width and mouse[1] > cancel_button_y and mouse[1] < cancel_button_y + cancel_button_height and pygame.mouse.get_pressed()[0]:
                     RUNNING_WINDOW = False
                     pygame.time.wait(confirm_box_delay)
 
                 pygame.display.update()
 
+    """
+    Delete a certain or current session function
+    """
     def delete_session():
-        mouse_click = pygame.mouse.get_pos()
-        key_click = pygame.key.get_pressed()
+        mouse = pygame.mouse.get_pos()
+        keys = pygame.key.get_pressed()
 
         pygame.draw.rect(WIN, (stats_bg), (options_delete_session_x, options_delete_session_y, option_buttons_width, option_buttons_height))
-    
-        if  mouse_click[0] > options_delete_session_x and mouse_click[0] < options_delete_session_x + option_buttons_width and mouse_click[1] > options_delete_session_y and mouse_click[1] < options_delete_session_y + option_buttons_height and pygame.mouse.get_pressed()[0]:
+
+        if  mouse[0] > options_delete_session_x and mouse[0] < options_delete_session_x + option_buttons_width and mouse[1] > options_delete_session_y and mouse[1] < options_delete_session_y + option_buttons_height and pygame.mouse.get_pressed()[0]:
             RUNNING_WINDOW = True
 
             pygame.time.wait(confirm_box_delay)
@@ -608,26 +722,32 @@ def option_buttons():
                 for event in pygame.event.get():
                     if event.type == pygame.QUIT:
                         pygame.quit()
-                
-                mouse_click = pygame.mouse.get_pos()
-                key_click = pygame.key.get_pressed()
+
+                mouse = pygame.mouse.get_pos()
+                keys = pygame.key.get_pressed()
 
                 options_bg()
 
-                if mouse_click[0] > cancel_button_x and mouse_click[0] < cancel_button_x + cancel_button_width and mouse_click[1] > cancel_button_y and mouse_click[1] < cancel_button_y + cancel_button_height and pygame.mouse.get_pressed()[0]:
+                if mouse[0] > cancel_button_x and mouse[0] < cancel_button_x + cancel_button_width and mouse[1] > cancel_button_y and mouse[1] < cancel_button_y + cancel_button_height and pygame.mouse.get_pressed()[0]:
                     RUNNING_WINDOW = False
                     pygame.time.wait(confirm_box_delay)
 
                 pygame.display.update()
 
+    """
+    Run all settings functions
+    """
     save_times()
     clear_times()
     new_session()
     delete_session()
 
+"""
+Options Page
+"""
 def options():
-    mouse_click = pygame.mouse.get_pos()
-    key_click = pygame.key.get_pressed()
+    mouse = pygame.mouse.get_pos()
+    keys = pygame.key.get_pressed()
 
     pygame.draw.rect(WIN, (title_box_colour), (option_button_x, option_button_y, option_button_width, option_button_height))
 
@@ -640,8 +760,8 @@ def options():
                 if event.type == pygame.QUIT:
                     pygame.quit()
 
-            mouse_click = pygame.mouse.get_pos()
-            key_click = pygame.key.get_pressed()
+            mouse = pygame.mouse.get_pos()
+            keys = pygame.key.get_pressed()
 
             WIN.fill(bg_colour)
 
@@ -659,12 +779,15 @@ def options():
             textRect9.bottomright = (window_width, window_height)
             WIN.blit(help_display, textRect9)
 
-            if key_click[pygame.K_ESCAPE]:
+            if keys[pygame.K_ESCAPE]:
                 RUNNING_WINDOW = False
 
 
             pygame.display.update()
 
+"""
+Game design background and run all design functions
+"""
 def game_window_style():
     WIN.fill(bg_colour)
 
@@ -676,7 +799,9 @@ def game_window_style():
     stats()
     title()
 
-
+"""
+Main Loop
+"""
 RUNNING_WINDOW = True
 
 while RUNNING_WINDOW:
@@ -685,21 +810,26 @@ while RUNNING_WINDOW:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             RUNNING_WINDOW = False
-#        if event.type == KEYUP:
-#            if event.key == K_SPACE:
-#                print("Space bar released")
+        #if event.type == KEYUP:
+            #if event.key == K_SPACE:
+                #print("Space bar released")
 
     keys = pygame.key.get_pressed()
     mouse = pygame.mouse.get_pos()
 
     start_time = 0
 
+    """
+    Get the timer functions started
+    """
     game_window_style()
     start_timer()
 
     pygame.display.update()
 
-
+"""
+Write final times and averages to file before closing
+"""
 while length_ao5 != len(all_ao5):
     convert = str(all_ao5[length_ao5])
     all_ao5_str.append(convert)
