@@ -1,2 +1,0 @@
-1. Unzip the "Rubik's Cube Timer v7 (zipped)".
-2. Read the "READ_ME_FOR_INSTALLING_GAME". (Inside the "Rubiks-Cube-Timer" folder)
