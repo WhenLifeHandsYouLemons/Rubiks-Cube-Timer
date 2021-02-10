@@ -10,7 +10,8 @@ import os
 import time
 import pygame
 import random
-#from pygame.locals import *
+import shutil
+from pygame.locals import *
 pygame.init()
 
 """
@@ -22,6 +23,80 @@ def get_true_filename(filename):
     except Exception:
         base = os.path.abspath(".")
     return os.path.join(base, filename)
+
+"""
+App files installer
+"""
+print("")
+installed = False
+if os.path.exists("C:/Rubik's Cube Timer/Averages/ao5.txt") and os.path.exists("C:/Rubik's Cube Timer/Averages/ao12.txt") and os.path.exists("C:/Rubik's Cube Timer/Sessions/Session1.txt") and os.path.exists("C:/Rubik's Cube Timer/Settings.txt"):
+    installed = True
+    print("The app is installed!")
+    print("Opening app now...")
+    time.sleep(2)
+else:
+    print("The app is not installed!")
+    print("")
+    total, used, free = shutil.disk_usage("/")
+    print("Total space available: %d megabytes" % (free / 1044923))
+    print("Total space needed: 5 bytes")
+    free_space = (free / 1044923) * 1024
+    if free_space >= 5:
+        print("")
+        i = input("Do you want to install 'Rubik's Cube Timer'? Enter 'Yes' to continue or press to enter key to exit: ")
+        if i == "Yes":
+            try:
+                try:
+                    os.makedirs("C:/Rubik's Cube Timer/Sessions")
+                except WindowsError:
+                    print("")
+                    print("Already exists!")
+                try:
+                    os.mkdir("C:/Rubik's Cube Timer/Averages")
+                except WindowsError:
+                    print("Already exists!")
+                if not os.path.exists("C:/Rubik's Cube Timer/Settings.txt"):
+                    open("C:/Rubik's Cube Timer/Settings.txt", "w+")
+                else:
+                    print("Already exists!")
+                if not os.path.exists("C:/Rubik's Cube Timer/Averages/ao5.txt"):
+                    open("C:/Rubik's Cube Timer/Averages/ao5.txt", "w+")
+                else:
+                    print("Already exists!")
+                if not os.path.exists("C:/Rubik's Cube Timer/Averages/ao12.txt"):
+                    open("C:/Rubik's Cube Timer/Averages/ao12.txt", "w+")
+                else:
+                    print("Already exists!")
+                if not os.path.exists("C:/Rubik's Cube Timer/Sessions/Session1.txt"):
+                    open("C:/Rubik's Cube Timer/Sessions/Session1.txt", "w+")
+                else:
+                    print("Already exists!")
+                time.sleep(2.5)
+                print("")
+                print("------------------------------")
+                input("Almost done! Press the enter key to finish setup and start app: ")
+                installed = True
+            except:
+                print("")
+                print("------------------------------")
+                print("Error")
+                print("")
+                print("Unable to create necessary files for application.")
+                print("Please contact developer.")
+                time.sleep(2.5)
+                print("")
+                print("------------------------------")
+                input("Press the enter key to exit app: ")
+                sys.exit()
+        else:
+            print("")
+            sys.exit()
+    else:
+        print("")
+        print("More space disk needed! Please free up storage and restart app.")
+        input("Press the enter key to exit app: ")
+        sys.exit()
+
 
 """
 App Window
@@ -100,7 +175,7 @@ with open("C:/Rubik's Cube Timer/Averages/ao12.txt", "r") as f:
         all_ao12.append(line)
 
 """
-Timer start/stop button
+Timer start/stop button variables
 """
 timer_button_x = 700
 timer_button_y = 450
@@ -114,9 +189,9 @@ start_display_y = timer_button_y + (timer_button_height // 2)
 start_fg = 0, 0, 0
 
 """
-Statistics display
+Statistics display variables
 """
-statistic_display_font = get_true_filename("arialbd.ttf")
+# statistic_display_font = get_true_filename("arialbd.ttf")
 statistic_display_font = "C:/Rubiks-Cube-Timer 1/arialbd.ttf"
 statistic_display_size = 36
 statistic_text_colour = 0, 0, 0
@@ -136,14 +211,17 @@ best_ao12_x = 10
 best_ao12_y = best_ao5_y + 30
 
 """
-Help text
+Help text variables
 """
 help_size = 24
+help_text_margin = 5
+help_text_x = window_width - help_text_margin
+help_text_y = window_height - help_text_margin
 
 """
-Timer display
+Timer display variables
 """
-timer_display_font = get_true_filename("arial.ttf")
+# timer_display_font = get_true_filename("arial.ttf")
 timer_display_font = "C:/Rubiks-Cube-Timer 1/arial.ttf"
 timer_display_size = 150
 timer_display_fg = 255, 255, 255
@@ -152,7 +230,7 @@ timer_display_x = timer_button_x - timer_button_x / 10
 timer_display_y = 200
 
 """
-Title display
+Title display variables
 """
 title_box_colour = 30, 30, 30
 title_bg = None
@@ -180,16 +258,25 @@ title_display_s_y = timer_button_height // 2
 title_display_cube_timer_x = (window_width // 18) * (25 / 2)
 title_display_cube_timer_y = timer_button_height // 2
 title_size = 80
-title_display_font = get_true_filename("joystix.ttf")
+# title_display_font = get_true_filename("joystix.ttf")
 title_display_font = "C:/Rubiks-Cube-Timer 1/joystix.ttf"
 stats_width = timer_button_x - (window_width - (timer_button_width + timer_button_x))
 stats_bg = 150, 150, 150
 
 """
-Options
+Options variables
 """
-option_button_x = 0
-option_button_y = 0
+# option_button_image = pygame.image.load(get_true_filename("Options Icon.png"))
+option_button_image = pygame.image.load("C:/Rubiks-Cube-Timer 1/Options Icon.png")
+# back_arrow_button_image = pygame.image.load(get_true_filename("Back Arrow Icon.png"))
+back_arrow_button_image = pygame.image.load("C:/Rubiks-Cube-Timer 1/Back Arrow Icon.png")
+back_arrow_button_x = 25
+back_arrow_button_y = 30
+back_arrow_button_height = 25
+back_arrow_button_width = 30
+option_button_colour = 255, 255, 255
+option_button_x = 5
+option_button_y = 5
 option_button_width = 30
 option_button_height = 30
 option_buttons_height = 230
@@ -204,7 +291,7 @@ options_delete_session_x = options_clear_times_x + option_buttons_width + 100
 options_delete_session_y = options_clear_times_y
 
 """
-Option confirm box
+Option confirm box variables
 """
 confirm_box_width = 1000
 confirm_box_height = 500
@@ -288,21 +375,21 @@ Start Timer Function
 def start_timer():
     if start_timer_check[0] == 1:
         timer_function()
-    #elif event.type == KEYUP and start_timer_check[0] == 0:
-        #if event.key == K_RALT or event.key == K_LALT and start_timer_check[0] == 0:
-            #start_timer_check.append(1)
-            #start_timer_check.remove(0)
+    # elif event.type == KEYUP and start_timer_check[0] == 0:
+    #     if event.key == K_RALT or event.key == K_LALT and start_timer_check[0] == 0:
+    #         start_timer_check.append(1)
+    #         start_timer_check.remove(0)
 
-            # if ao5_check[0] == 0:
-            #     ao5_check.remove(0)
-            #     ao5_check.append(1)
-            # if ao12_check[0] == 0:
-            #     ao12_check.remove(0)
-            #     ao12_check.append(1)
+    #         if ao5_check[0] == 0:
+    #             ao5_check.remove(0)
+    #             ao5_check.append(1)
+    #         if ao12_check[0] == 0:
+    #             ao12_check.remove(0)
+    #             ao12_check.append(1)
 
-            # start_time = time.time()
+    #         start_time = time.time()
 
-            # timer_function()
+    #         timer_function()
     elif keys[pygame.K_RALT] or keys[pygame.K_LALT] and start_timer_check[0] == 0:
         start_timer_check.append(1)
         start_timer_check.remove(0)
@@ -315,7 +402,6 @@ def start_timer():
             ao12_check.append(1)
 
         timer_function()
-
     elif mouse[0] > timer_button_x and mouse[0] < timer_button_x + timer_button_width and mouse[1] > timer_button_y and mouse[1] < timer_button_y + timer_button_height and pygame.mouse.get_pressed()[0] and start_timer_check[0] == 0:
 
         pygame.draw.rect(WIN, (timer_button_colour_selected), (timer_button_x, timer_button_y, timer_button_width, timer_button_height))
@@ -331,7 +417,6 @@ def start_timer():
             ao12_check.append(1)
 
         timer_function()
-
     else:
         timer_font = pygame.font.Font(timer_display_font, timer_display_size)
         timer_display = timer_font.render(time_taken[0], True, timer_display_fg, timer_display_bg)
@@ -392,7 +477,7 @@ def title():
     WIN.blit(title_display_cube_timer, textRect8)
 
 """
-Statistics
+Statistics Panel
 """
 def stats():
     stats_display_font = pygame.font.Font(statistic_display_font, statistic_display_size)
@@ -545,7 +630,7 @@ def help():
     help_font = pygame.font.Font(timer_display_font, help_size)
     help_display = help_font.render("Press 'alt' to start, press 'space' to stop", True, timer_display_fg, timer_display_bg)
     textRect9 = help_display.get_rect()
-    textRect9.bottomright = (window_width, window_height)
+    textRect9.bottomright = (help_text_x, help_text_y)
     WIN.blit(help_display, textRect9)
 
 """
@@ -566,10 +651,12 @@ def options_bg():
     WIN.blit(options_display, textRect17)
 
     help_font = pygame.font.Font(timer_display_font, help_size)
-    help_display = help_font.render("Press 'esc' to go back", True, timer_display_fg, timer_display_bg)
+    help_display = help_font.render("Press 'esc' to go back or click the back arrow", True, timer_display_fg, timer_display_bg)
     textRect9 = help_display.get_rect()
-    textRect9.bottomright = (window_width, window_height)
+    textRect9.bottomright = (help_text_x, help_text_y)
     WIN.blit(help_display, textRect9)
+
+    WIN.blit(back_arrow_button_image, (back_arrow_button_x, back_arrow_button_y))
 
     overlay = pygame.Surface((window_width, window_height))
     overlay.set_alpha(200)
@@ -749,9 +836,11 @@ def options():
     mouse = pygame.mouse.get_pos()
     keys = pygame.key.get_pressed()
 
-    pygame.draw.rect(WIN, (title_box_colour), (option_button_x, option_button_y, option_button_width, option_button_height))
+    WIN.blit(option_button_image, (option_button_x, option_button_y))
 
     if mouse[0] > option_button_x and mouse[0] < option_button_x + option_button_width and mouse[1] > option_button_y and mouse[1] < option_button_y + option_button_height and pygame.mouse.get_pressed()[0]:
+
+        pygame.time.wait(confirm_box_delay)
 
         RUNNING_WINDOW = True
 
@@ -774,14 +863,18 @@ def options():
             WIN.blit(options_display, textRect17)
 
             help_font = pygame.font.Font(timer_display_font, help_size)
-            help_display = help_font.render("Press 'esc' to go back", True, timer_display_fg, timer_display_bg)
+            help_display = help_font.render("Press 'esc' to go back or click the back arrow", True, timer_display_fg, timer_display_bg)
             textRect9 = help_display.get_rect()
-            textRect9.bottomright = (window_width, window_height)
+            textRect9.bottomright = (help_text_x, help_text_y)
             WIN.blit(help_display, textRect9)
+
+            WIN.blit(back_arrow_button_image, (back_arrow_button_x, back_arrow_button_y))
 
             if keys[pygame.K_ESCAPE]:
                 RUNNING_WINDOW = False
-
+            elif mouse[0] > back_arrow_button_x and mouse[0] < back_arrow_button_x + back_arrow_button_width and mouse[1] > back_arrow_button_y and mouse[1] < back_arrow_button_y + back_arrow_button_height and pygame.mouse.get_pressed()[0]:
+                RUNNING_WINDOW = False
+                pygame.time.wait(confirm_box_delay)
 
             pygame.display.update()
 
