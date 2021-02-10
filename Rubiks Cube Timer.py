@@ -1,5 +1,13 @@
 """
 Made By: Sooraj Sannabhadti
+GitHub - https://github.com/WhenLifeHandsYouLemons
+Twitter - https://twitter.com/LemonsHandYou
+Instagram - https://www.instagram.com/whenlifehandsyoulemons1/
+"""
+
+"""
+WARNING!
+This app works on machines that have Windows Vista and above installed only.
 """
 
 """
@@ -97,34 +105,48 @@ else:
         input("Press the enter key to exit app: ")
         sys.exit()
 
-
-"""
-App Window
-"""
-window_height = 645
-window_width = 1250
-WIN = pygame.display.set_mode((window_width, window_height))
-pygame.display.set_caption("Rubik's Cube Timer")
-bg_colour = 0, 0, 0
-
 """"
 Import settings for app
 """
-settings = ["1"]
+settings = []
 with open("C:/Rubik's Cube Timer/Settings.txt", "r") as f:
     content = f.read()
     lines = content.splitlines()
     for line in lines:
         settings.append(line)
 session_no = settings[0]
+theme_type = settings[1]
+
+"""
+App window
+"""
+window_height = 645
+window_width = 1250
+WIN = pygame.display.set_mode((window_width, window_height))
+pygame.display.set_caption("Rubik's Cube Timer")
+
+if theme_type == "Dark":
+    bg_colour = 0, 0, 0
+elif theme_type == "Light":
+    bg_colour = 255, 255, 255
 
 """
 Scrambler
 """
-all_moves = ["U", "D", "L", "R", "F", "B", "U2", "D2", "L2", "R2", "F2", "B2", "U'", "D'", "L'", "R'", "F'", "B'"]
-print(random.choice(all_moves))
-current_scramble_list = []
-current_scramble = ""
+# current_scramble_list = []
+# current_scramble = ""
+# all_moves = ["U", "D", "L", "R", "F", "B", "U2", "D2", "L2", "R2", "F2", "B2", "U'", "D'", "L'", "R'", "F'", "B'"]
+# number_of_scrambler_moves = 20
+# while number_of_scrambler_moves != 0:
+#     current_choice = random.choice(all_moves)
+#     if len(current_scramble_list) != 0:
+#         while current_choice == current_scramble_list[-1] or current_choice in current_scramble_list[-1] or current_scramble_list[-1] in current_choice or  current_choice == "U'" and current_scramble_list[-1] == "U2" or current_choice == "U2" and current_scramble_list[-1] == "U'" or current_choice == "D'" and current_scramble_list[-1] == "D2" or current_choice == "D2" and current_scramble_list[-1] == "D'" or current_choice == "L'" and current_scramble_list[-1] == "L2" or current_choice == "L2" and current_scramble_list[-1] == "L'" or current_choice == "R'" and current_scramble_list[-1] == "R2" or current_choice == "R2" and current_scramble_list[-1] == "R'" or current_choice == "F'" and current_scramble_list[-1] == "F2" or current_choice == "F2" and current_scramble_list[-1] == "F'" or current_choice == "B'" and current_scramble_list[-1] == "B2" or current_choice == "B2" and current_scramble_list[-1] == "B'":
+#             current_choice = random.choice(all_moves)
+#     current_scramble_list.append(current_choice)
+#     number_of_scrambler_moves = number_of_scrambler_moves - 1
+
+# current_scramble = " ".join(current_scramble_list)
+# print(f"The current scramble is: {current_scramble}")
 
 """
 Timer
@@ -181,12 +203,22 @@ timer_button_x = 700
 timer_button_y = 450
 timer_button_height = 100
 timer_button_width = 250
-timer_button_colour = 255, 255, 255
-timer_button_colour_selected = 150, 150, 150
+
+if theme_type == "Dark":
+    timer_button_colour = 255, 255, 255
+    timer_button_colour_selected = 150, 150, 150
+elif theme_type == "Light":
+    timer_button_colour = 0, 0, 0
+    timer_button_colour_selected = 50, 50, 50
+
 start_display_size = 60
 start_display_x = timer_button_x + (timer_button_width // 2)
 start_display_y = timer_button_y + (timer_button_height // 2)
-start_fg = 0, 0, 0
+
+if theme_type == "Dark":
+    start_fg = 0, 0, 0
+elif theme_type == "Light":
+    start_fg = 255, 255, 255
 
 """
 Statistics display variables
@@ -194,7 +226,11 @@ Statistics display variables
 # statistic_display_font = get_true_filename("arialbd.ttf")
 statistic_display_font = "C:/Rubiks-Cube-Timer 1/arialbd.ttf"
 statistic_display_size = 36
-statistic_text_colour = 0, 0, 0
+
+if theme_type == "Dark":
+    statistic_text_colour = 0, 0, 0
+elif theme_type == "Light":
+    statistic_text_colour = 255, 255, 255
 best_time_x = 10
 best_time_y = 150
 worst_time_x = 10
@@ -224,23 +260,41 @@ Timer display variables
 # timer_display_font = get_true_filename("arial.ttf")
 timer_display_font = "C:/Rubiks-Cube-Timer 1/arial.ttf"
 timer_display_size = 150
-timer_display_fg = 255, 255, 255
+
+if theme_type == "Dark":
+    timer_display_fg = 255, 255, 255
+elif theme_type == "Light":
+    timer_display_fg = 0, 0, 0
+
 timer_display_bg = None
-timer_display_x = timer_button_x - timer_button_x / 10
+timer_display_x = int(timer_button_x - timer_button_x / 10)
 timer_display_y = 200
 
 """
 Title display variables
 """
-title_box_colour = 30, 30, 30
+if theme_type == "Dark":
+    title_box_colour = 30, 30, 30
+elif theme_type == "Light":
+    title_box_colour = 205, 205, 205
+
 title_bg = None
-title_cube_timer_fg = 170, 170, 170
-title_b_fg = 60, 60, 255
-title_s_fg = 220, 0, 0
-title_u_fg = 255, 255, 255
+
+if theme_type == "Dark":
+    title_R_fg = 0, 200, 0
+    title_u_fg = 255, 255, 255
+    title_b_fg = 60, 60, 255
+    title_k_fg = 255, 255, 0
+    title_cube_timer_fg = 170, 170, 170
+elif theme_type == "Light":
+    title_R_fg = 0, 140, 0
+    title_u_fg = 90, 90, 90
+    title_b_fg = 40, 40, 235
+    title_k_fg = 200, 190, 0
+    title_cube_timer_fg = 50, 50, 50
+
 title_i_fg = 255, 140, 0
-title_R_fg = 0, 200, 0
-title_k_fg = 255, 255, 0
+title_s_fg = 220, 0, 0
 title_display_R_x = (window_width // 18) * 1
 title_display_R_y = timer_button_height // 2
 title_display_u_x = (window_width // 18) * 2
@@ -255,26 +309,36 @@ title_display_apostrophe_x = (window_width // 18) * 6
 title_display_apostrophe_y = timer_button_height // 2
 title_display_s_x = (window_width // 18) * 7
 title_display_s_y = timer_button_height // 2
-title_display_cube_timer_x = (window_width // 18) * (25 / 2)
+title_display_cube_timer_x = int((window_width // 18) * (25 / 2))
 title_display_cube_timer_y = timer_button_height // 2
 title_size = 80
 # title_display_font = get_true_filename("joystix.ttf")
 title_display_font = "C:/Rubiks-Cube-Timer 1/joystix.ttf"
 stats_width = timer_button_x - (window_width - (timer_button_width + timer_button_x))
-stats_bg = 150, 150, 150
+
+if theme_type == "Dark":
+    stats_bg = 150, 150, 150
+elif theme_type == "Light":
+    stats_bg = 50, 50, 50
 
 """
 Options variables
 """
-# option_button_image = pygame.image.load(get_true_filename("Options Icon.png"))
-option_button_image = pygame.image.load("C:/Rubiks-Cube-Timer 1/Options Icon.png")
-# back_arrow_button_image = pygame.image.load(get_true_filename("Back Arrow Icon.png"))
-back_arrow_button_image = pygame.image.load("C:/Rubiks-Cube-Timer 1/Back Arrow Icon.png")
+if theme_type == "Dark":
+    # option_button_image = pygame.image.load(get_true_filename("Options Light Icon.png"))
+    option_button_image = pygame.image.load("C:/Rubiks-Cube-Timer 1/Options Light Icon.png")
+    # back_arrow_button_image = pygame.image.load(get_true_filename("Back Arrow Light Icon.png"))
+    back_arrow_button_image = pygame.image.load("C:/Rubiks-Cube-Timer 1/Back Arrow Light Icon.png")
+elif theme_type == "Light":
+    # option_button_image = pygame.image.load(get_true_filename("Options Dark Icon.png"))
+    option_button_image = pygame.image.load("C:/Rubiks-Cube-Timer 1/Options Dark Icon.png")
+    # back_arrow_button_image = pygame.image.load(get_true_filename("Back Arrow Dark Icon.png"))
+    back_arrow_button_image = pygame.image.load("C:/Rubiks-Cube-Timer 1/Back Arrow Dark Icon.png")
+
 back_arrow_button_x = 25
 back_arrow_button_y = 30
 back_arrow_button_height = 25
 back_arrow_button_width = 30
-option_button_colour = 255, 255, 255
 option_button_x = 5
 option_button_y = 5
 option_button_width = 30
@@ -289,6 +353,9 @@ options_new_session_x = options_save_times_x + option_buttons_width + 100
 options_new_session_y = options_save_times_y
 options_delete_session_x = options_clear_times_x + option_buttons_width + 100
 options_delete_session_y = options_clear_times_y
+options_change_theme_x = options_delete_session_x + option_buttons_width + 100
+options_change_theme_y = options_delete_session_y
+
 
 """
 Option confirm box variables
@@ -309,7 +376,7 @@ confirm_text_y = cancel_button_y + (cancel_button_height // 2)
 confirm_box_delay = 200
 
 """
-Timing and Stop Timer Function
+Timing & stop timer function
 """
 def timer_function():
 
@@ -317,7 +384,7 @@ def timer_function():
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                pygame.quit()
+                sys.exit()
 
         if time_start[0] == 0:
             start_time = time.time()
@@ -370,7 +437,7 @@ def timer_function():
             ao12_check.remove(1)
 
 """
-Start Timer Function
+Start timer function
 """
 def start_timer():
     if start_timer_check[0] == 1:
@@ -439,7 +506,7 @@ For FPS
 clock = pygame.time.Clock()
 
 """
-RUBIK'S CUBE TIMER Title Design
+RUBIK'S CUBE TIMER title design
 """
 def title():
     title_font = pygame.font.Font(title_display_font, title_size)
@@ -477,7 +544,7 @@ def title():
     WIN.blit(title_display_cube_timer, textRect8)
 
 """
-Statistics Panel
+Statistics panel
 """
 def stats():
     stats_display_font = pygame.font.Font(statistic_display_font, statistic_display_size)
@@ -624,7 +691,7 @@ def stats():
     WIN.blit(worst_time_display, textRect21)
 
 """
-Help Text
+Help text
 """
 def help():
     help_font = pygame.font.Font(timer_display_font, help_size)
@@ -643,6 +710,7 @@ def options_bg():
     pygame.draw.rect(WIN, (stats_bg), (options_new_session_x, options_new_session_y, option_buttons_width, option_buttons_height))
     pygame.draw.rect(WIN, (stats_bg), (options_save_times_x, options_save_times_y, option_buttons_width, option_buttons_height))
     pygame.draw.rect(WIN, (stats_bg), (options_delete_session_x, options_delete_session_y, option_buttons_width, option_buttons_height))
+    pygame.draw.rect(WIN, (stats_bg), (options_change_theme_x, options_change_theme_y, option_buttons_width, option_buttons_height))
 
     options_display_font = pygame.font.Font(statistic_display_font, title_size)
     options_display = options_display_font.render("Options", True, timer_display_fg, timer_display_bg)
@@ -663,25 +731,41 @@ def options_bg():
     overlay.fill((0, 0, 0))
     WIN.blit(overlay, (0, 0))
 
-    pygame.draw.rect(WIN, (stats_bg), (confirm_box_x, confirm_box_y, confirm_box_width, confirm_box_height))
+    if theme_type == "Dark":
+        pygame.draw.rect(WIN, (stats_bg), (confirm_box_x, confirm_box_y, confirm_box_width, confirm_box_height))
 
-    pygame.draw.rect(WIN, (title_box_colour), (confirm_button_x, cancel_button_y, cancel_button_width, cancel_button_height))
-    pygame.draw.rect(WIN, (title_box_colour), (cancel_button_x, cancel_button_y, cancel_button_width, cancel_button_height))
+        pygame.draw.rect(WIN, (title_box_colour), (confirm_button_x, cancel_button_y, cancel_button_width, cancel_button_height))
+        pygame.draw.rect(WIN, (title_box_colour), (cancel_button_x, cancel_button_y, cancel_button_width, cancel_button_height))
+    elif theme_type == "Light":
+        pygame.draw.rect(WIN, (bg_colour), (confirm_box_x, confirm_box_y, confirm_box_width, confirm_box_height))
+
+        pygame.draw.rect(WIN, (timer_button_colour), (confirm_button_x, cancel_button_y, cancel_button_width, cancel_button_height))
+        pygame.draw.rect(WIN, (timer_button_colour), (cancel_button_x, cancel_button_y, cancel_button_width, cancel_button_height))
 
     cancel_font = pygame.font.Font(title_display_font, start_display_size)
-    cancel_display_text = cancel_font.render("Cancel", True, timer_display_fg, title_bg)
+
+    if theme_type == "Dark":
+        cancel_display_text = cancel_font.render("Cancel", True, timer_button_colour, title_box_colour)
+    elif theme_type == "Light":
+        cancel_display_text = cancel_font.render("Cancel", True, start_fg, timer_button_colour)
+
     textRect18 = cancel_display_text.get_rect()
     textRect18.center = (cancel_text_x, cancel_text_y)
     WIN.blit(cancel_display_text, textRect18)
 
     confirm_font = pygame.font.Font(title_display_font, start_display_size)
-    confirm_display_text = confirm_font.render("Confirm", True, timer_display_fg, title_bg)
+
+    if theme_type == "Dark":
+        confirm_display_text = confirm_font.render("Confirm", True, timer_button_colour, title_box_colour)
+    elif theme_type == "Light":
+        confirm_display_text = confirm_font.render("Confirm", True, start_fg, timer_button_colour)
+
     textRect19 = confirm_display_text.get_rect()
     textRect19.center = (confirm_text_x, confirm_text_y)
     WIN.blit(confirm_display_text, textRect19)
 
 """
-Option Buttons
+Option buttons
 """
 def option_buttons():
     """
@@ -701,7 +785,7 @@ def option_buttons():
             while RUNNING_WINDOW:
                 for event in pygame.event.get():
                     if event.type == pygame.QUIT:
-                        pygame.quit()
+                        sys.exit()
 
                 keys = pygame.key.get_pressed()
                 mouse = pygame.mouse.get_pos()
@@ -713,9 +797,9 @@ def option_buttons():
                     pygame.time.wait(confirm_box_delay)
 
                 if mouse[0] > confirm_button_x and mouse[0] < confirm_button_x + cancel_button_width and mouse[1] > cancel_button_y and mouse[1] < cancel_button_y + cancel_button_height and pygame.mouse.get_pressed()[0]:
-                    print("Saved!")
+                    print("Exported to your Downloads folder.")
                     add_to_file = "\n".join(all_times)
-                    with open(f"C:/Users/2005s/Downloads/Session{session_no}.txt", "w") as f:
+                    with open(f"C:/Users/2005s/Downloads/Rubik's Cube Timer Session {session_no} Exported.txt", "w") as f:
                         f.write(add_to_file)
                     RUNNING_WINDOW = False
                     pygame.time.wait(confirm_box_delay)
@@ -739,7 +823,8 @@ def option_buttons():
             while RUNNING_WINDOW:
                 for event in pygame.event.get():
                     if event.type == pygame.QUIT:
-                        pygame.quit()
+                        sys.exit()
+
                 mouse = pygame.mouse.get_pos()
                 keys = pygame.key.get_pressed()
 
@@ -750,14 +835,14 @@ def option_buttons():
                     pygame.time.wait(confirm_box_delay)
 
                 if mouse[0] > confirm_button_x and mouse[0] < confirm_button_x + cancel_button_width and mouse[1] > cancel_button_y and mouse[1] < cancel_button_y + cancel_button_height and pygame.mouse.get_pressed()[0]:
-                    print("Cleared!")
+                    print(f"Cleared all your times in Session {session_no}.")
                     with open(f"C:/Rubik's Cube Timer/Sessions/Session{session_no}.txt", "w") as f:
                         f.write("")
                     with open(f"C:/Rubik's Cube Timer/Averages/ao5.txt", "w") as f:
                         f.write("")
                     with open(f"C:/Rubik's Cube Timer/Averages/ao12.txt", "w") as f:
                         f.write("")
-                    pygame.quit()
+                    sys.exit()
 
                 pygame.display.update()
 
@@ -778,7 +863,7 @@ def option_buttons():
             while RUNNING_WINDOW:
                 for event in pygame.event.get():
                     if event.type == pygame.QUIT:
-                        pygame.quit()
+                        sys.exit()
 
                 mouse = pygame.mouse.get_pos()
                 keys = pygame.key.get_pressed()
@@ -808,7 +893,7 @@ def option_buttons():
             while RUNNING_WINDOW:
                 for event in pygame.event.get():
                     if event.type == pygame.QUIT:
-                        pygame.quit()
+                        sys.exit()
 
                 mouse = pygame.mouse.get_pos()
                 keys = pygame.key.get_pressed()
@@ -822,15 +907,41 @@ def option_buttons():
                 pygame.display.update()
 
     """
+    Change theme function
+    """
+    def change_theme():
+        mouse = pygame.mouse.get_pos()
+        keys = pygame.key.get_pressed()
+
+        pygame.draw.rect(WIN, (stats_bg), (options_change_theme_x, options_change_theme_y, option_buttons_width, option_buttons_height))
+
+        if  mouse[0] > options_change_theme_x and mouse[0] < options_change_theme_x + option_buttons_width and mouse[1] > options_change_theme_y and mouse[1] < options_change_theme_y + option_buttons_height and pygame.mouse.get_pressed()[0]:
+            if settings[1] == "Dark":
+                settings.pop(1)
+                settings.insert(1, "Light")
+            elif settings[1] == "Light":
+                settings.pop(1)
+                settings.insert(1, "Dark")
+
+            add_to_file = "\n".join(settings)
+            with open("C:/Rubik's Cube Timer/Settings.txt", "w") as f:
+                f.write(add_to_file)
+
+            print(f"Changed theme to '{settings[1]}'.")
+            pygame.time.wait(confirm_box_delay)
+            sys.exit()
+
+    """
     Run all settings functions
     """
     save_times()
     clear_times()
     new_session()
     delete_session()
+    change_theme()
 
 """
-Options Page
+Options page
 """
 def options():
     mouse = pygame.mouse.get_pos()
@@ -847,7 +958,7 @@ def options():
         while RUNNING_WINDOW:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
-                    pygame.quit()
+                    sys.exit()
 
             mouse = pygame.mouse.get_pos()
             keys = pygame.key.get_pressed()
@@ -893,7 +1004,7 @@ def game_window_style():
     title()
 
 """
-Main Loop
+Main loop
 """
 RUNNING_WINDOW = True
 
@@ -943,4 +1054,4 @@ with open("C:/Rubik's Cube Timer/Averages/ao12.txt", "w") as f:
 
 
 
-pygame.quit()
+sys.exit()
