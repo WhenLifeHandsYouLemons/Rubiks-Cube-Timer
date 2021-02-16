@@ -121,6 +121,11 @@ with open("C:/Rubik's Cube Timer/Settings.txt", "r") as f:
     lines = content.splitlines()
     for line in lines:
         settings.append(line)
+
+if len(settings) == 0:
+    settings.append(1)
+    settings.append("Dark")
+
 session_no = settings[0]
 theme_type = settings[1]
 
@@ -1057,6 +1062,10 @@ while length_ao12 != len(all_ao12):
 
 add_to_file = "\n".join(all_ao12_str)
 with open("C:/Rubik's Cube Timer/Averages/ao12.txt", "w") as f:
+    f.write(add_to_file)
+
+add_to_file = "\n".join(settings)
+with open("C:/Rubik's Cube Timer/Settings.txt", "w") as f:
     f.write(add_to_file)
 
 
