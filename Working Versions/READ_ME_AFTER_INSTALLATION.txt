@@ -1,1 +1,0 @@
-Please allow the program to launch after installation to install other necessary files.

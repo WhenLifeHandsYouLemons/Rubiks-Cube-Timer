@@ -35,14 +35,7 @@ def get_true_filename(filename):
 """
 App files installer
 """
-print("")
-installed = False
-if os.path.exists("C:/Rubik's Cube Timer/Averages/ao5.txt") and os.path.exists("C:/Rubik's Cube Timer/Averages/ao12.txt") and os.path.exists("C:/Rubik's Cube Timer/Sessions/Session1.txt") and os.path.exists("C:/Rubik's Cube Timer/Settings.txt"):
-    installed = True
-    print("The app is installed!")
-    print("Opening app now...")
-    time.sleep(2)
-else:
+def installing():
     print("The app is not installed!")
     print("")
     total, used, free = shutil.disk_usage("/")
@@ -104,6 +97,20 @@ else:
         print("More space disk needed! Please free up storage and restart app.")
         input("Press the enter key to exit app: ")
         sys.exit()
+
+def installed():
+    print("The app is installed!")
+    print("Opening app now...")
+    time.sleep(2)
+
+def check_for_files():
+    print("")
+    if os.path.exists("C:/Rubik's Cube Timer/Averages/ao5.txt") and os.path.exists("C:/Rubik's Cube Timer/Averages/ao12.txt") and os.path.exists("C:/Rubik's Cube Timer/Sessions/Session1.txt") and os.path.exists("C:/Rubik's Cube Timer/Settings.txt"):
+        installed()
+    else:
+        installing()
+
+check_for_files()
 
 """"
 Import settings for app

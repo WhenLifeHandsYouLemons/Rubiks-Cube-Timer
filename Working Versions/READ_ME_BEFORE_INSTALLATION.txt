@@ -1,1 +1,0 @@
-Please run the "Install Rubik's Cube Timer Application" before running the "Rubik's Cube Timer" file or else it will not work.
