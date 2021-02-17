@@ -22,6 +22,8 @@ import shutil
 from pygame.locals import *
 pygame.init()
 
+print("")
+
 """
 File searching used when in '.exe' format
 """
@@ -35,7 +37,8 @@ def get_true_filename(filename):
 """
 App files installer
 """
-def installing():
+confirm_uninstall = [0]
+def installing_procedure():
     print("The app is not installed!")
     print("")
     total, used, free = shutil.disk_usage("/")
@@ -53,23 +56,27 @@ def installing():
                     print("")
                     print("Already exists!")
                 try:
-                    os.mkdir("C:/Rubik's Cube Timer/Averages")
+                    os.mkdir("C:/Rubik's Cube Timer/Sessions/Session 1")
                 except WindowsError:
                     print("Already exists!")
                 if not os.path.exists("C:/Rubik's Cube Timer/Settings.txt"):
                     open("C:/Rubik's Cube Timer/Settings.txt", "w+")
                 else:
                     print("Already exists!")
-                if not os.path.exists("C:/Rubik's Cube Timer/Averages/ao5.txt"):
-                    open("C:/Rubik's Cube Timer/Averages/ao5.txt", "w+")
+                if not os.path.exists("C:/Rubik's Cube Timer/Sessions/Session 1/ao5.txt"):
+                    open("C:/Rubik's Cube Timer/Sessions/Session 1/ao5.txt", "w+")
                 else:
                     print("Already exists!")
-                if not os.path.exists("C:/Rubik's Cube Timer/Averages/ao12.txt"):
-                    open("C:/Rubik's Cube Timer/Averages/ao12.txt", "w+")
+                if not os.path.exists("C:/Rubik's Cube Timer/Sessions/Session 1/ao12.txt"):
+                    open("C:/Rubik's Cube Timer/Sessions/Session 1/ao12.txt", "w+")
                 else:
                     print("Already exists!")
-                if not os.path.exists("C:/Rubik's Cube Timer/Sessions/Session1.txt"):
-                    open("C:/Rubik's Cube Timer/Sessions/Session1.txt", "w+")
+                if not os.path.exists("C:/Rubik's Cube Timer/Sessions/Session 1/Times.txt"):
+                    open("C:/Rubik's Cube Timer/Sessions/Session 1/Times.txt", "w+")
+                else:
+                    print("Already exists!")
+                if not os.path.exists("C:/Rubik's Cube Timer/Sessions/Session 1/Scrambles.txt"):
+                    open("C:/Rubik's Cube Timer/Sessions/Session 1/Scrambles.txt", "w+")
                 else:
                     print("Already exists!")
                 time.sleep(2.5)
@@ -77,6 +84,7 @@ def installing():
                 print("------------------------------")
                 input("Almost done! Press the enter key to finish setup and start app: ")
                 installed = True
+                print("Opening app...")
             except:
                 print("")
                 print("------------------------------")
@@ -91,26 +99,95 @@ def installing():
                 sys.exit()
         else:
             print("")
+            print("Closing installer...")
             sys.exit()
     else:
         print("")
-        print("More space disk needed! Please free up storage and restart app.")
+        print("More disk space needed! Please free up storage and restart app.")
         input("Press the enter key to exit app: ")
         sys.exit()
 
-def installed():
+def installed_procedure():
     print("The app is installed!")
-    print("Opening app now...")
-    time.sleep(2)
+    print("Opening app...")
+
+def uninstalling_procedure():
+    print("")
+    print("-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-")
+    print("-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-")
+    print("-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* IMPORTANT PLEASE READ *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-")
+    print("-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-")
+    print("-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-")
+    print("")
+    i = input("Are you really sure you want to uninstall 'Rubik's Cube Timer'? Enter 'Yes' to continue or press to enter key to exit: ")
+    if i == "Yes":
+        try:
+            try:
+                shutil.rmtree("C:/Rubik's Cube Timer")
+            except FileNotFoundError:
+                print("")
+                print("Already removed!")
+            time.sleep(2)
+            print("")
+            print("------------------------------")
+            input("Almost done! Press the enter key to finish uninstalling: ")
+        except:
+            print("")
+            print("------------------------------")
+            print("Error")
+            print("")
+            print("Unable to remove application files.")
+            print("Please contact developer.")
+            time.sleep(2)
+            input("Press the enter key to exit uninstaller: ")
+    elif i == "":
+        print("")
+    print("Closing uninstaller...")
+    time.sleep(1)
+    sys.exit()
+
+def saving_procedure():
+    print("Please wait, the files are being saved...")
+    length_ao5 = 0
+    while length_ao5 != len(all_ao5):
+        convert = str(all_ao5[length_ao5])
+        all_ao5_str.append(convert)
+        length_ao5 = length_ao5 + 1
+
+    add_to_file = "\n".join(all_ao5_str)
+    with open(f"C:/Rubik's Cube Timer/Sessions/Session {session_no}/ao5.txt", "w") as f:
+        f.write(add_to_file)
+
+    length_ao12 = 0
+    while length_ao12 != len(all_ao12):
+        convert = str(all_ao12[length_ao12])
+        all_ao12_str.append(convert)
+        length_ao12 = length_ao12 + 1
+
+    add_to_file = "\n".join(all_ao12_str)
+    with open(f"C:/Rubik's Cube Timer/Sessions/Session {session_no}/ao12.txt", "w") as f:
+        f.write(add_to_file)
+
+    length_settings = 0
+    while length_settings != len(settings):
+        convert = str(settings[length_settings])
+        settings_str.append(convert)
+        length_settings = length_settings + 1
+
+    add_to_file = "\n".join(settings_str)
+    with open("C:/Rubik's Cube Timer/Settings.txt", "w") as f:
+        f.write(add_to_file)
 
 def check_for_files():
-    print("")
-    if os.path.exists("C:/Rubik's Cube Timer/Averages/ao5.txt") and os.path.exists("C:/Rubik's Cube Timer/Averages/ao12.txt") and os.path.exists("C:/Rubik's Cube Timer/Sessions/Session1.txt") and os.path.exists("C:/Rubik's Cube Timer/Settings.txt"):
-        installed()
+    if confirm_uninstall[0] == 1:
+        uninstalling_procedure()
+    elif os.path.exists("C:/Rubik's Cube Timer/Sessions/Session 1/ao5.txt") and os.path.exists("C:/Rubik's Cube Timer/Sessions/Session 1/ao12.txt") and os.path.exists("C:/Rubik's Cube Timer/Sessions/Session 1/Times.txt") and os.path.exists("C:/Rubik's Cube Timer/Settings.txt") and os.path.exists("C:/Rubik's Cube Timer/Sessions/Session 1/Scrambles.txt"):
+        installed_procedure()
     else:
-        installing()
+        installing_procedure()
 
 check_for_files()
+time.sleep(2)
 
 """"
 Import settings for app
@@ -123,11 +200,12 @@ with open("C:/Rubik's Cube Timer/Settings.txt", "r") as f:
         settings.append(line)
 
 if len(settings) == 0:
-    settings.append(1)
+    settings.append("1")
     settings.append("Dark")
 
 session_no = settings[0]
 theme_type = settings[1]
+settings_str = []
 
 """
 App window
@@ -145,19 +223,20 @@ elif theme_type == "Light":
 """
 Scrambler
 """
-# current_scramble_list = []
-# current_scramble = ""
-# all_moves = ["U", "D", "L", "R", "F", "B", "U2", "D2", "L2", "R2", "F2", "B2", "U'", "D'", "L'", "R'", "F'", "B'"]
-# number_of_scrambler_moves = 20
-# while number_of_scrambler_moves != 0:
-#     current_choice = random.choice(all_moves)
-#     if len(current_scramble_list) != 0:
-#         while current_choice == current_scramble_list[-1] or current_choice in current_scramble_list[-1] or current_scramble_list[-1] in current_choice or  current_choice == "U'" and current_scramble_list[-1] == "U2" or current_choice == "U2" and current_scramble_list[-1] == "U'" or current_choice == "D'" and current_scramble_list[-1] == "D2" or current_choice == "D2" and current_scramble_list[-1] == "D'" or current_choice == "L'" and current_scramble_list[-1] == "L2" or current_choice == "L2" and current_scramble_list[-1] == "L'" or current_choice == "R'" and current_scramble_list[-1] == "R2" or current_choice == "R2" and current_scramble_list[-1] == "R'" or current_choice == "F'" and current_scramble_list[-1] == "F2" or current_choice == "F2" and current_scramble_list[-1] == "F'" or current_choice == "B'" and current_scramble_list[-1] == "B2" or current_choice == "B2" and current_scramble_list[-1] == "B'":
-#             current_choice = random.choice(all_moves)
-#     current_scramble_list.append(current_choice)
-#     number_of_scrambler_moves = number_of_scrambler_moves - 1
+all_scrambles = []
+current_scramble_list = []
+current_scramble = ""
+all_moves = ["U", "D", "L", "R", "F", "B", "U2", "D2", "L2", "R2", "F2", "B2", "U'", "D'", "L'", "R'", "F'", "B'"]
+number_of_scrambler_moves = 20
+while number_of_scrambler_moves != 0:
+    current_choice = random.choice(all_moves)
+    if len(current_scramble_list) != 0:
+        while current_choice == current_scramble_list[-1] or current_choice in current_scramble_list[-1] or current_scramble_list[-1] in current_choice or  current_choice == "U'" and current_scramble_list[-1] == "U2" or current_choice == "U2" and current_scramble_list[-1] == "U'" or current_choice == "D'" and current_scramble_list[-1] == "D2" or current_choice == "D2" and current_scramble_list[-1] == "D'" or current_choice == "L'" and current_scramble_list[-1] == "L2" or current_choice == "L2" and current_scramble_list[-1] == "L'" or current_choice == "R'" and current_scramble_list[-1] == "R2" or current_choice == "R2" and current_scramble_list[-1] == "R'" or current_choice == "F'" and current_scramble_list[-1] == "F2" or current_choice == "F2" and current_scramble_list[-1] == "F'" or current_choice == "B'" and current_scramble_list[-1] == "B2" or current_choice == "B2" and current_scramble_list[-1] == "B'":
+            current_choice = random.choice(all_moves)
+    current_scramble_list.append(current_choice)
+    number_of_scrambler_moves = number_of_scrambler_moves - 1
 
-# current_scramble = " ".join(current_scramble_list)
+current_scramble = " ".join(current_scramble_list)
 # print(f"The current scramble is: {current_scramble}")
 
 """
@@ -180,13 +259,11 @@ all_ao12 = []
 all_ao12_str = []
 ao5_check = [0]
 ao12_check = [0]
-length_ao5 = 0
-length_ao12 = 0
 
 """
 Import times and averages
 """
-with open(f"C:/Rubik's Cube Timer/Sessions/Session{session_no}.txt", "r") as f:
+with open(f"C:/Rubik's Cube Timer/Sessions/Session {session_no}/Times.txt", "r") as f:
     content = f.read()
     lines = content.splitlines()
     for line in lines:
@@ -194,14 +271,14 @@ with open(f"C:/Rubik's Cube Timer/Sessions/Session{session_no}.txt", "r") as f:
         line = float(line)
         times_to_mean.append(line)
 
-with open("C:/Rubik's Cube Timer/Averages/ao5.txt", "r") as f:
+with open(f"C:/Rubik's Cube Timer/Sessions/Session {session_no}/ao5.txt", "r") as f:
     content = f.read()
     lines = content.splitlines()
     for line in lines:
         line = float(line)
         all_ao5.append(line)
 
-with open("C:/Rubik's Cube Timer/Averages/ao12.txt", "r") as f:
+with open(f"C:/Rubik's Cube Timer/Sessions/Session {session_no}/ao12.txt", "r") as f:
     content = f.read()
     lines = content.splitlines()
     for line in lines:
@@ -367,6 +444,8 @@ options_delete_session_x = options_clear_times_x + option_buttons_width + 100
 options_delete_session_y = options_clear_times_y
 options_change_theme_x = options_delete_session_x + option_buttons_width + 100
 options_change_theme_y = options_delete_session_y
+options_uninstall_x = options_new_session_x + option_buttons_width + 100
+options_uninstall_y = options_new_session_y
 
 
 """
@@ -428,7 +507,7 @@ def timer_function():
 
             all_times.append(total_time)
             add_to_file = "\n".join(all_times)
-            with open(f"C:/Rubik's Cube Timer/Sessions/Session{session_no}.txt", "w") as f:
+            with open(f"C:/Rubik's Cube Timer/Sessions/Session {session_no}/Times.txt", "w") as f:
                 f.write(add_to_file)
 
             total_time = float(total_time)
@@ -723,6 +802,7 @@ def options_bg():
     pygame.draw.rect(WIN, (stats_bg), (options_save_times_x, options_save_times_y, option_buttons_width, option_buttons_height))
     pygame.draw.rect(WIN, (stats_bg), (options_delete_session_x, options_delete_session_y, option_buttons_width, option_buttons_height))
     pygame.draw.rect(WIN, (stats_bg), (options_change_theme_x, options_change_theme_y, option_buttons_width, option_buttons_height))
+    pygame.draw.rect(WIN, (stats_bg), (options_uninstall_x, options_uninstall_y, option_buttons_width, option_buttons_height))
 
     options_display_font = pygame.font.Font(statistic_display_font, title_size)
     options_display = options_display_font.render("Options", True, timer_display_fg, timer_display_bg)
@@ -809,10 +889,16 @@ def option_buttons():
                     pygame.time.wait(confirm_box_delay)
 
                 if mouse[0] > confirm_button_x and mouse[0] < confirm_button_x + cancel_button_width and mouse[1] > cancel_button_y and mouse[1] < cancel_button_y + cancel_button_height and pygame.mouse.get_pressed()[0]:
-                    print("Exported to your Downloads folder.")
+                    print("Exported to your C:/ drive.")
+
                     add_to_file = "\n".join(all_times)
-                    with open(f"C:/Users/2005s/Downloads/Rubik's Cube Timer Session {session_no} Exported.txt", "w") as f:
+                    with open(f"C:/Rubik's Cube Timer Session {session_no} Times Exported.txt", "w") as f:
                         f.write(add_to_file)
+
+                    add_to_file = "\n".join(all_scrambles)
+                    with open(f"C:/Rubik's Cube Timer Session {session_no} Scrambles Exported.txt", "w") as f:
+                        f.write(add_to_file)
+
                     RUNNING_WINDOW = False
                     pygame.time.wait(confirm_box_delay)
 
@@ -847,12 +933,14 @@ def option_buttons():
                     pygame.time.wait(confirm_box_delay)
 
                 if mouse[0] > confirm_button_x and mouse[0] < confirm_button_x + cancel_button_width and mouse[1] > cancel_button_y and mouse[1] < cancel_button_y + cancel_button_height and pygame.mouse.get_pressed()[0]:
-                    print(f"Cleared all your times in Session {session_no}.")
-                    with open(f"C:/Rubik's Cube Timer/Sessions/Session{session_no}.txt", "w") as f:
+                    print(f"Cleared all your times, ao's and scrambles in Session {session_no}.")
+                    with open(f"C:/Rubik's Cube Timer/Sessions/Session {session_no}/Times.txt", "w") as f:
                         f.write("")
-                    with open(f"C:/Rubik's Cube Timer/Averages/ao5.txt", "w") as f:
+                    with open(f"C:/Rubik's Cube Timer/Sessions/Session {session_no}/Scrambles.txt", "w") as f:
                         f.write("")
-                    with open(f"C:/Rubik's Cube Timer/Averages/ao12.txt", "w") as f:
+                    with open(f"C:/Rubik's Cube Timer/Sessions/Session {session_no}/ao5.txt", "w") as f:
+                        f.write("")
+                    with open(f"C:/Rubik's Cube Timer/Sessions/Session {session_no}/ao12.txt", "w") as f:
                         f.write("")
                     sys.exit()
 
@@ -928,20 +1016,82 @@ def option_buttons():
         pygame.draw.rect(WIN, (stats_bg), (options_change_theme_x, options_change_theme_y, option_buttons_width, option_buttons_height))
 
         if  mouse[0] > options_change_theme_x and mouse[0] < options_change_theme_x + option_buttons_width and mouse[1] > options_change_theme_y and mouse[1] < options_change_theme_y + option_buttons_height and pygame.mouse.get_pressed()[0]:
-            if settings[1] == "Dark":
-                settings.pop(1)
-                settings.insert(1, "Light")
-            elif settings[1] == "Light":
-                settings.pop(1)
-                settings.insert(1, "Dark")
+            RUNNING_WINDOW = True
 
-            add_to_file = "\n".join(settings)
-            with open("C:/Rubik's Cube Timer/Settings.txt", "w") as f:
-                f.write(add_to_file)
-
-            print(f"Changed theme to '{settings[1]}'.")
             pygame.time.wait(confirm_box_delay)
-            sys.exit()
+
+            while RUNNING_WINDOW:
+                for event in pygame.event.get():
+                    if event.type == pygame.QUIT:
+                        sys.exit()
+
+                mouse = pygame.mouse.get_pos()
+                keys = pygame.key.get_pressed()
+
+                options_bg()
+
+                if mouse[0] > confirm_button_x and mouse[0] < confirm_button_x + cancel_button_width and mouse[1] > cancel_button_y and mouse[1] < cancel_button_y + cancel_button_height and pygame.mouse.get_pressed()[0]:
+                    if settings[1] == "Dark":
+                        settings.pop(1)
+                        settings.insert(1, "Light")
+                    elif settings[1] == "Light":
+                        settings.pop(1)
+                        settings.insert(1, "Dark")
+
+                    length_settings = 0
+                    while length_settings != len(settings):
+                        convert = str(settings[length_settings])
+                        settings_str.append(convert)
+                        length_settings = length_settings + 1
+
+                    add_to_file = "\n".join(settings_str)
+                    with open("C:/Rubik's Cube Timer/Settings.txt", "w") as f:
+                        f.write(add_to_file)
+
+                    print(f"Changed theme to '{settings[1]}'.")
+                    sys.exit()
+
+                if mouse[0] > cancel_button_x and mouse[0] < cancel_button_x + cancel_button_width and mouse[1] > cancel_button_y and mouse[1] < cancel_button_y + cancel_button_height and pygame.mouse.get_pressed()[0]:
+                    RUNNING_WINDOW = False
+                    pygame.time.wait(confirm_box_delay)
+
+                pygame.display.update()
+
+    """
+    Uninstall function
+    """
+    def uninstall():
+        mouse = pygame.mouse.get_pos()
+        keys = pygame.key.get_pressed()
+
+        pygame.draw.rect(WIN, (stats_bg), (options_uninstall_x, options_uninstall_y, option_buttons_width, option_buttons_height))
+
+        if  mouse[0] > options_uninstall_x and mouse[0] < options_uninstall_x + option_buttons_width and mouse[1] > options_uninstall_y and mouse[1] < options_uninstall_y + option_buttons_height and pygame.mouse.get_pressed()[0]:
+            RUNNING_WINDOW = True
+
+            pygame.time.wait(confirm_box_delay)
+
+            while RUNNING_WINDOW:
+                for event in pygame.event.get():
+                    if event.type == pygame.QUIT:
+                        sys.exit()
+
+                mouse = pygame.mouse.get_pos()
+                keys = pygame.key.get_pressed()
+
+                options_bg()
+
+                if mouse[0] > confirm_button_x and mouse[0] < confirm_button_x + cancel_button_width and mouse[1] > cancel_button_y and mouse[1] < cancel_button_y + cancel_button_height and pygame.mouse.get_pressed()[0]:
+                    RUNNING_WINDOW = False
+                    confirm_uninstall.pop(0)
+                    confirm_uninstall.append(1)
+                    pygame.time.wait(confirm_box_delay)
+
+                if mouse[0] > cancel_button_x and mouse[0] < cancel_button_x + cancel_button_width and mouse[1] > cancel_button_y and mouse[1] < cancel_button_y + cancel_button_height and pygame.mouse.get_pressed()[0]:
+                    RUNNING_WINDOW = False
+                    pygame.time.wait(confirm_box_delay)
+
+                pygame.display.update()
 
     """
     Run all settings functions
@@ -951,6 +1101,7 @@ def option_buttons():
     new_session()
     delete_session()
     change_theme()
+    uninstall()
 
 """
 Options page
@@ -999,6 +1150,9 @@ def options():
                 RUNNING_WINDOW = False
                 pygame.time.wait(confirm_box_delay)
 
+            if confirm_uninstall[0] == 1:
+                RUNNING_WINDOW = False
+
             pygame.display.update()
 
 """
@@ -1023,13 +1177,6 @@ RUNNING_WINDOW = True
 while RUNNING_WINDOW:
     clock.tick(30)
 
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            RUNNING_WINDOW = False
-        #if event.type == KEYUP:
-            #if event.key == K_SPACE:
-                #print("Space bar released")
-
     keys = pygame.key.get_pressed()
     mouse = pygame.mouse.get_pos()
 
@@ -1043,31 +1190,26 @@ while RUNNING_WINDOW:
 
     pygame.display.update()
 
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT or confirm_uninstall[0] == 1:
+            RUNNING_WINDOW = False
+            pygame.quit()
+        #if event.type == KEYUP:
+            #if event.key == K_SPACE:
+                #print("Space bar released")
+
 """
 Write final times and averages to file before closing
 """
-while length_ao5 != len(all_ao5):
-    convert = str(all_ao5[length_ao5])
-    all_ao5_str.append(convert)
-    length_ao5 = length_ao5 + 1
-
-add_to_file = "\n".join(all_ao5_str)
-with open("C:/Rubik's Cube Timer/Averages/ao5.txt", "w") as f:
-    f.write(add_to_file)
-
-while length_ao12 != len(all_ao12):
-    convert = str(all_ao12[length_ao12])
-    all_ao12_str.append(convert)
-    length_ao12 = length_ao12 + 1
-
-add_to_file = "\n".join(all_ao12_str)
-with open("C:/Rubik's Cube Timer/Averages/ao12.txt", "w") as f:
-    f.write(add_to_file)
-
-add_to_file = "\n".join(settings)
-with open("C:/Rubik's Cube Timer/Settings.txt", "w") as f:
-    f.write(add_to_file)
+print("")
+if confirm_uninstall[0] == 1:
+    check_for_files()
+else:
+    saving_procedure()
 
 
 
+time.sleep(2)
+print("Closing app...")
+time.sleep(1)
 sys.exit()
