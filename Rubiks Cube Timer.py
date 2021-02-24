@@ -1,8 +1,9 @@
 """
-Made By: Sooraj Sannabhadti
+Made By - Sooraj Sannabhadti
 GitHub - https://github.com/WhenLifeHandsYouLemons
 Twitter - https://twitter.com/LemonsHandYou
 Instagram - https://www.instagram.com/whenlifehandsyoulemons1/
+Latest Release - https://github.com/WhenLifeHandsYouLemons/Rubiks-Cube-Timer/releases
 """
 
 """
