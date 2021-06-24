@@ -1195,9 +1195,9 @@ while RUNNING_WINDOW:
         if event.type == pygame.QUIT or confirm_uninstall[0] == 1:
             RUNNING_WINDOW = False
             pygame.quit()
-        #if event.type == KEYUP:
-            #if event.key == K_SPACE:
-                #print("Space bar released")
+        # if event.type == KEYUP:
+            # if event.key == K_SPACE:
+                # print("Space bar released")
 
 """
 Write final times and averages to file before closing
